@@ -1,0 +1,1274 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2929416373707977199",
+      "lastPropertyId": "57:7001167321856197076",
+      "name": "BaoCunBean",
+      "properties": [
+        {
+          "id": "1:1789385017483215941",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "2:3111667588738494199",
+          "name": "port",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "3:8294021641165023065",
+          "name": "zhujiDiZhi",
+          "type": 9
+        },
+        {
+          "id": "4:2328760688245314643",
+          "name": "moban",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "5:3044667132455988715",
+          "name": "tuisongDiZhi",
+          "type": 9
+        },
+        {
+          "id": "6:2797452196181976139",
+          "name": "gonggao",
+          "type": 9
+        },
+        {
+          "id": "7:8423348732460002388",
+          "name": "isShowMoshengren",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "8:7846612556932129637",
+          "name": "isShowShiPingLiu",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "9:2423840154978034098",
+          "name": "isHengOrShu",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "10:6869403394817815204",
+          "name": "yusu",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "11:8521811863534743240",
+          "name": "yudiao",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "12:608606324716771143",
+          "name": "boyingren",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "13:9200290447284337035",
+          "name": "zhanghuId",
+          "type": 9
+        },
+        {
+          "id": "14:5897974070778283896",
+          "name": "wenzi",
+          "type": 9
+        },
+        {
+          "id": "15:8819367117536013799",
+          "name": "size",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "16:8981723105956644563",
+          "name": "touxiangzhuji",
+          "type": 9
+        },
+        {
+          "id": "17:5319434611386092407",
+          "name": "houtaiDiZhi",
+          "type": 9
+        },
+        {
+          "id": "18:3497023691553900990",
+          "name": "xintiaoDIZhi",
+          "type": 9
+        },
+        {
+          "id": "19:1269142747806609327",
+          "name": "huiyiId",
+          "type": 9
+        },
+        {
+          "id": "20:2151548024797171339",
+          "name": "wenzi1",
+          "type": 9
+        },
+        {
+          "id": "21:1257577841381708707",
+          "name": "size1",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "22:6739880733753731615",
+          "name": "guanggaojiMing",
+          "type": 9
+        },
+        {
+          "id": "23:6417762984756873003",
+          "name": "shiPingWeiZhi",
+          "type": 9
+        },
+        {
+          "id": "24:3482633168401795982",
+          "name": "zhanhuiId",
+          "type": 9
+        },
+        {
+          "id": "25:6091041098774606059",
+          "name": "zhanhuiBianMa",
+          "type": 9
+        },
+        {
+          "id": "26:5196648270340952700",
+          "name": "shibieFaZhi",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "27:7190836397182817237",
+          "name": "shibieFaceSize",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "28:2604524090306771475",
+          "name": "ruKuMoHuDu",
+          "type": 7,
+          "flags": 4
+        },
+        {
+          "id": "29:5442492819808449910",
+          "name": "ruKuFaceSize",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "30:564492829655546722",
+          "name": "isHuoTi",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "31:1610469637237855144",
+          "name": "huoTiFZ",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "32:4263957316826896614",
+          "name": "shualianhuidiaodizhi",
+          "type": 9
+        },
+        {
+          "id": "33:3157042495959863686",
+          "name": "dangqianChengShi2",
+          "type": 9
+        },
+        {
+          "id": "34:1332973220661104174",
+          "name": "dangqianShiJian",
+          "type": 9
+        },
+        {
+          "id": "35:8300341789604267689",
+          "name": "isTianQi",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "36:1503702975974994334",
+          "name": "shangBanTime",
+          "type": 9
+        },
+        {
+          "id": "37:165658284731612503",
+          "name": "xiaBanTime",
+          "type": 9
+        },
+        {
+          "id": "38:4142733163530159811",
+          "name": "mima",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "39:5589054719892701155",
+          "name": "mima2",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "40:1339792976583077887",
+          "name": "xgToken",
+          "type": 9
+        },
+        {
+          "id": "41:3906857635377810389",
+          "name": "jihuoma",
+          "type": 9
+        },
+        {
+          "id": "42:1240993948775812915",
+          "name": "appid",
+          "type": 9
+        },
+        {
+          "id": "43:1126654194489166248",
+          "name": "appkey",
+          "type": 9
+        },
+        {
+          "id": "44:3173824482694919155",
+          "name": "appurl",
+          "type": 9
+        },
+        {
+          "id": "45:3672682292002209895",
+          "name": "tishiyu",
+          "type": 9
+        },
+        {
+          "id": "46:4239891444208467321",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "47:2714744418378701788",
+          "name": "leixing",
+          "type": 9
+        },
+        {
+          "id": "48:6318088894238522626",
+          "name": "weizhi",
+          "type": 9
+        },
+        {
+          "id": "49:8242956823710090482",
+          "name": "ip",
+          "type": 9
+        },
+        {
+          "id": "50:8669288294474461568",
+          "name": "xuliehao",
+          "type": 9
+        },
+        {
+          "id": "51:8015241568571357129",
+          "name": "jiaoyanmima",
+          "type": 9
+        },
+        {
+          "id": "52:3175284427750250239",
+          "name": "moshengrenPanDing",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "53:3562913291206821684",
+          "name": "sbsRenLian",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "54:8510944711392373500",
+          "name": "msrPanDing",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "55:7771915990651980156",
+          "name": "jidianqi",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "56:3636948728017830605",
+          "name": "logo",
+          "type": 9
+        },
+        {
+          "id": "57:7001167321856197076",
+          "name": "configModel",
+          "type": 5,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:8858185631562083759",
+      "lastPropertyId": "2:6970790245094853956",
+      "name": "BenDiInFoBean",
+      "properties": [
+        {
+          "id": "1:4845771275087873354",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:6970790245094853956",
+          "name": "name",
+          "indexId": "1:4409001593614554603",
+          "type": 9,
+          "flags": 2048
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:1745309902151072493",
+      "lastPropertyId": "5:4985472369424602772",
+      "name": "BenDiJiLuBean",
+      "properties": [
+        {
+          "id": "1:4394454359264060454",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5113021078611473941",
+          "name": "subjectId",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "3:8813136082350565103",
+          "name": "subjectType",
+          "type": 9
+        },
+        {
+          "id": "4:2684403690128123788",
+          "name": "discernPlace",
+          "type": 9
+        },
+        {
+          "id": "5:4985472369424602772",
+          "name": "identificationTime",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:1904017596851983545",
+      "lastPropertyId": "14:1612347026391613845",
+      "name": "BenDiMBbean",
+      "properties": [
+        {
+          "id": "1:7994012651960097907",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "2:1666765705446415967",
+          "name": "screenId",
+          "type": 9
+        },
+        {
+          "id": "3:578575611458480670",
+          "name": "sid",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "4:720324900952993420",
+          "name": "createTime",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "5:4620755956698235584",
+          "name": "bottemImageUrl",
+          "type": 9
+        },
+        {
+          "id": "6:2714508501340459741",
+          "name": "welcomeSpeak",
+          "type": 9
+        },
+        {
+          "id": "7:4740282933779310496",
+          "name": "subType",
+          "type": 9
+        },
+        {
+          "id": "8:2907521535478339089",
+          "name": "pageSize",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "9:6370530847358580154",
+          "name": "popupImageUrl",
+          "type": 9
+        },
+        {
+          "id": "10:8959301693335452752",
+          "name": "dtoResult",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "11:6154026162949162533",
+          "name": "companyId",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "12:4651608283241210742",
+          "name": "modifyTime",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "13:7690378841850968088",
+          "name": "pageNum",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "14:1612347026391613845",
+          "name": "photo_index",
+          "type": 5,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:7278111389061270856",
+      "lastPropertyId": "5:1198428556331507418",
+      "name": "ChengShiIDBean",
+      "properties": [
+        {
+          "id": "1:5838065105424246811",
+          "name": "sid",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3043245620819003737",
+          "name": "id",
+          "type": 9
+        },
+        {
+          "id": "3:7892373112607208230",
+          "name": "province",
+          "type": 9
+        },
+        {
+          "id": "4:8431157207925667028",
+          "name": "city",
+          "type": 9
+        },
+        {
+          "id": "5:1198428556331507418",
+          "name": "district",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:6913073702987965942",
+      "lastPropertyId": "8:4452945415811920963",
+      "name": "DaKaBean",
+      "properties": [
+        {
+          "id": "1:6386975497492276677",
+          "name": "id",
+          "type": 6,
+          "flags": 3
+        },
+        {
+          "id": "2:6647190577194976651",
+          "name": "id2",
+          "type": 9
+        },
+        {
+          "id": "3:2041377657144795246",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:6519699361397352350",
+          "name": "bumen",
+          "type": 9
+        },
+        {
+          "id": "5:3452065363083588352",
+          "name": "renyuanleixing",
+          "type": 9
+        },
+        {
+          "id": "6:6649783069099523657",
+          "name": "time",
+          "type": 9
+        },
+        {
+          "id": "7:1804402839569805775",
+          "name": "time2",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "8:4452945415811920963",
+          "name": "dianhua",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:3333307224342700127",
+      "lastPropertyId": "13:6990296341005385681",
+      "name": "GuanHuai",
+      "properties": [
+        {
+          "id": "1:6223282797534807508",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "2:4914127697742540557",
+          "name": "employeeId",
+          "type": 6,
+          "flags": 2
+        },
+        {
+          "id": "3:6376011226664396275",
+          "name": "spareStatus",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "4:3369302692616371438",
+          "name": "companyId",
+          "type": 9
+        },
+        {
+          "id": "5:8503921718735675753",
+          "name": "projectileStatus",
+          "type": 9
+        },
+        {
+          "id": "6:8901611927550991949",
+          "name": "machineS1",
+          "type": 9
+        },
+        {
+          "id": "7:1883138152959190182",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "8:3758755664666773509",
+          "name": "startTime",
+          "type": 9
+        },
+        {
+          "id": "9:4361130448988162707",
+          "name": "endTime",
+          "type": 9
+        },
+        {
+          "id": "10:1993162705894369264",
+          "name": "markedWords",
+          "type": 9
+        },
+        {
+          "id": "11:8095720230070035692",
+          "name": "timeRange",
+          "type": 9
+        },
+        {
+          "id": "12:6903645496327567066",
+          "name": "repeatType",
+          "type": 9
+        },
+        {
+          "id": "13:6990296341005385681",
+          "name": "newsStatus",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "8:901715919180693263",
+      "lastPropertyId": "7:6700468313586986459",
+      "name": "HuiFuBean",
+      "properties": [
+        {
+          "id": "1:4112839582312219044",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "2:3032306920154025539",
+          "name": "pepopleId",
+          "type": 9
+        },
+        {
+          "id": "3:185319973241214332",
+          "name": "pepopleType",
+          "type": 9
+        },
+        {
+          "id": "4:8597918133222998426",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "5:5227098096255189104",
+          "name": "msg",
+          "type": 9
+        },
+        {
+          "id": "6:2238538923500742551",
+          "name": "shortId",
+          "type": 9
+        },
+        {
+          "id": "7:6700468313586986459",
+          "name": "serialnumber",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "9:9131729399773890042",
+      "lastPropertyId": "3:6111630706606225428",
+      "name": "IDCardBean",
+      "properties": [
+        {
+          "id": "1:2698629598532995176",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "2:5987570487276898710",
+          "name": "idCard",
+          "type": 9
+        },
+        {
+          "id": "3:6111630706606225428",
+          "name": "name",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "10:2263214728194214521",
+      "lastPropertyId": "4:7561356945091705047",
+      "name": "IDCardTakeBean",
+      "properties": [
+        {
+          "id": "1:3248407084080003355",
+          "name": "id",
+          "type": 6,
+          "flags": 3
+        },
+        {
+          "id": "2:1570395292531987279",
+          "name": "idCard",
+          "type": 9
+        },
+        {
+          "id": "3:7705337687926181785",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:7561356945091705047",
+          "name": "time",
+          "type": 6,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "11:3067101717753145896",
+      "lastPropertyId": "2:2515038872175641541",
+      "name": "LunBoBean",
+      "properties": [
+        {
+          "id": "1:5375996159456636562",
+          "name": "id",
+          "type": 6,
+          "flags": 3
+        },
+        {
+          "id": "2:2515038872175641541",
+          "name": "path",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "12:1863233226422532508",
+      "lastPropertyId": "31:6203040075510159278",
+      "name": "RenYuanInFo",
+      "properties": [
+        {
+          "id": "1:832998338841660151",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "2:4915015192010283058",
+          "name": "accountId",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "3:7410441046918592416",
+          "name": "assemblyId",
+          "type": 9
+        },
+        {
+          "id": "4:6678807228323307275",
+          "name": "channel",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "5:4660566928396528456",
+          "name": "come_from",
+          "type": 9
+        },
+        {
+          "id": "6:3297342028684551434",
+          "name": "companyName",
+          "type": 9
+        },
+        {
+          "id": "7:3415914230539507538",
+          "name": "country",
+          "type": 9
+        },
+        {
+          "id": "8:5608816900390595742",
+          "name": "createTime",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "9:5069902668471482873",
+          "name": "department",
+          "type": 9
+        },
+        {
+          "id": "10:1542090364582648481",
+          "name": "dtoResult",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "11:3333837550442814013",
+          "name": "gender",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "12:6594062287650542674",
+          "name": "identity",
+          "type": 9
+        },
+        {
+          "id": "13:2536774740370349934",
+          "name": "jobStatus",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "14:1102866185930579391",
+          "name": "location",
+          "type": 9
+        },
+        {
+          "id": "15:6595272872947035659",
+          "name": "meetingId",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "16:8963886795489045904",
+          "name": "modifyTime",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "17:4725932390278080289",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "18:3921793195729144704",
+          "name": "namePinyin",
+          "type": 9
+        },
+        {
+          "id": "19:1846237227274648083",
+          "name": "num",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "20:6597260790760643865",
+          "name": "pageNum",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "21:5471046796647729534",
+          "name": "pageSize",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "22:6875811914515403793",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "23:1778026392960565361",
+          "name": "photo_ids",
+          "type": 9
+        },
+        {
+          "id": "24:2384907890818457312",
+          "name": "province",
+          "type": 9
+        },
+        {
+          "id": "25:2328796250245022632",
+          "name": "remark",
+          "type": 9
+        },
+        {
+          "id": "26:3652184752756722199",
+          "name": "sid",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "27:587409473489475796",
+          "name": "sourceMeeting",
+          "type": 9
+        },
+        {
+          "id": "28:7119563244230658392",
+          "name": "sourceQuestionJson",
+          "type": 9
+        },
+        {
+          "id": "29:7518686880024360771",
+          "name": "status",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "30:3322313482938701658",
+          "name": "subject_type",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "31:6203040075510159278",
+          "name": "title",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "13:7515607599854985284",
+      "lastPropertyId": "31:3887355505851839009",
+      "name": "Subject",
+      "properties": [
+        {
+          "id": "1:41287352635146462",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4844844728020377238",
+          "name": "sid",
+          "type": 9
+        },
+        {
+          "id": "3:3651533655690806215",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:7347414230204958435",
+          "name": "companyId",
+          "type": 9
+        },
+        {
+          "id": "5:3815585823040828974",
+          "name": "companyName",
+          "type": 9
+        },
+        {
+          "id": "6:2740916435069492466",
+          "name": "workNumber",
+          "type": 9
+        },
+        {
+          "id": "7:752037457401436681",
+          "name": "sex",
+          "type": 9
+        },
+        {
+          "id": "8:2795549489606895318",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "9:1872012256056449190",
+          "name": "peopleType",
+          "type": 9
+        },
+        {
+          "id": "10:2574338646232602381",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "11:4943397018944848014",
+          "name": "position",
+          "type": 9
+        },
+        {
+          "id": "12:6049190201653992890",
+          "name": "employeeStatus",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "13:7949949369558970458",
+          "name": "isOpen",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "14:4051310034258286461",
+          "name": "remark",
+          "type": 9
+        },
+        {
+          "id": "15:2341604798360986541",
+          "name": "photo",
+          "type": 9
+        },
+        {
+          "id": "16:3273372698493516620",
+          "name": "storeId",
+          "type": 9
+        },
+        {
+          "id": "17:8779089683030490421",
+          "name": "storeName",
+          "type": 9
+        },
+        {
+          "id": "18:883391802876975566",
+          "name": "entryTime",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "19:2441129985524406317",
+          "name": "birthday",
+          "type": 9
+        },
+        {
+          "id": "20:8032276721091848207",
+          "name": "teZhengMa",
+          "type": 9
+        },
+        {
+          "id": "21:8861892471522151719",
+          "name": "departmentName",
+          "type": 9
+        },
+        {
+          "id": "22:8068728755340431402",
+          "name": "daka",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "23:1054177364125849431",
+          "name": "shijian",
+          "type": 9
+        },
+        {
+          "id": "24:4720036406188411369",
+          "name": "displayPhoto",
+          "type": 9
+        },
+        {
+          "id": "25:4257735580648076105",
+          "name": "txBytes",
+          "type": 23
+        },
+        {
+          "id": "26:6907242486513010046",
+          "name": "w",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "27:4152336632386934468",
+          "name": "h",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "28:1300382106600278325",
+          "name": "idcardNum",
+          "type": 9
+        },
+        {
+          "id": "29:314912500637845401",
+          "name": "faceIds1",
+          "type": 9
+        },
+        {
+          "id": "30:1324354777152408028",
+          "name": "faceIds2",
+          "type": 9
+        },
+        {
+          "id": "31:3887355505851839009",
+          "name": "faceIds3",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "14:751144318436418906",
+      "lastPropertyId": "16:2332787919679844998",
+      "name": "TodayBean",
+      "properties": [
+        {
+          "id": "1:3597990061298841252",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:1456203954769374243",
+          "name": "temperature",
+          "type": 9
+        },
+        {
+          "id": "3:7626401034836371170",
+          "name": "weather",
+          "type": 9
+        },
+        {
+          "id": "4:3476724088486323832",
+          "name": "wind",
+          "type": 9
+        },
+        {
+          "id": "5:1882537821936650705",
+          "name": "week",
+          "type": 9
+        },
+        {
+          "id": "6:8611916835842151492",
+          "name": "city",
+          "type": 9
+        },
+        {
+          "id": "7:8373561428568977331",
+          "name": "date_y",
+          "type": 9
+        },
+        {
+          "id": "8:4274510024554273783",
+          "name": "dressing_index",
+          "type": 9
+        },
+        {
+          "id": "9:3281501452716910487",
+          "name": "dressing_advice",
+          "type": 9
+        },
+        {
+          "id": "10:9185297183463209835",
+          "name": "uv_index",
+          "type": 9
+        },
+        {
+          "id": "11:5589945868278362010",
+          "name": "comfort_index",
+          "type": 9
+        },
+        {
+          "id": "12:7158437675636218722",
+          "name": "wash_index",
+          "type": 9
+        },
+        {
+          "id": "13:192036053646751780",
+          "name": "travel_index",
+          "type": 9
+        },
+        {
+          "id": "14:4275090347226537221",
+          "name": "exercise_index",
+          "type": 9
+        },
+        {
+          "id": "15:405654186870231347",
+          "name": "drying_index",
+          "type": 9
+        },
+        {
+          "id": "16:2332787919679844998",
+          "name": "humidity",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "15:6516537526867584120",
+      "lastPropertyId": "9:6934702818049572335",
+      "name": "XinXiAll",
+      "properties": [
+        {
+          "id": "1:7363101500981497008",
+          "name": "companyId",
+          "type": 9
+        },
+        {
+          "id": "2:8779393943471312848",
+          "name": "pushScope",
+          "type": 9
+        },
+        {
+          "id": "3:5588902760473669635",
+          "name": "editNews",
+          "type": 9
+        },
+        {
+          "id": "4:8084859678334700527",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:7908033421682046877",
+          "name": "employeeId",
+          "type": 9
+        },
+        {
+          "id": "6:8036077455695691988",
+          "name": "startTime",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "7:1591979994223220115",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "8:9180236965191532682",
+          "name": "endTime",
+          "type": 9
+        },
+        {
+          "id": "9:6934702818049572335",
+          "name": "pushMachine",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "16:7569553257411068192",
+      "lastPropertyId": "3:7018630665186677030",
+      "name": "XinXiIdBean",
+      "properties": [
+        {
+          "id": "1:8773234723875094346",
+          "name": "id",
+          "type": 6,
+          "flags": 3
+        },
+        {
+          "id": "2:1262484571839089048",
+          "name": "ygid",
+          "type": 6,
+          "flags": 2
+        },
+        {
+          "id": "3:7018630665186677030",
+          "name": "uuid",
+          "type": 6,
+          "flags": 2
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "16:7569553257411068192",
+  "lastIndexId": "1:4409001593614554603",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

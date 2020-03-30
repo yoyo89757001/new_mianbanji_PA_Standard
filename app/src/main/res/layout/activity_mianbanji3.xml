@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/root_layout"
+    android:clipChildren="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <megvii.testfacepass.pa.camera.CameraPreview
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <megvii.testfacepass.pa.camera.CameraPreview2
+        android:id="@+id/preview2"
+        android:layout_width="1dp"
+        android:layout_height="1dp"/>
+
+
+
+    <!--顶部按钮和标题-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@mipmap/pic_hd11"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvTitle_Ir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="6dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+    <!--蓝色图片动画-->
+    <RelativeLayout
+        android:id="@+id/layout_true_gif_Ir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="170dp">
+
+        <ImageView
+            android:id="@+id/iv_true_gif_in_Ir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/true_gif_in" />
+
+        <ImageView
+            android:id="@+id/iv_true_gif_out_Ir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/true_gif_out" />
+    </RelativeLayout>
+
+    <!--红色图片动画-->
+    <RelativeLayout
+        android:id="@+id/layout_error_gif_Ir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="170dp">
+
+        <ImageView
+            android:id="@+id/iv_error_gif_in_Ir"
+            android:layout_width="660dp"
+            android:layout_height="660dp"
+            android:src="@mipmap/error_gif_in" />
+
+        <ImageView
+            android:id="@+id/iv_error_gif_out_Ir"
+            android:layout_width="660dp"
+            android:layout_height="660dp"
+            android:src="@mipmap/error_gif_out" />
+    </RelativeLayout>
+
+    <!--结果显示区域-->
+    <LinearLayout
+        android:id="@+id/layout_loadbg_Ir"
+        android:layout_width="720dp"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="80dp"
+        android:background="@mipmap/true_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvName_Ir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:maxEms="8"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="66dp" />
+
+        <TextView
+            android:id="@+id/tvTime_Ir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="40dp" />
+
+        <TextView
+            android:id="@+id/tvFaceTips_Ir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="36sp" />
+
+    </LinearLayout>
+
+    <!--底部logo-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_22"
+         />
+
+
+
+    <ImageView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/shezhi"
+        android:padding="4dp"
+        android:src="@drawable/shezhibg1"
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
+
+
+    <ImageView
+        android:id="@+id/xiping"
+        android:visibility="gone"
+        android:background="@color/blake"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:id="@+id/tishiyu"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:text="屏幕保护中..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>
