@@ -292,7 +292,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                 int aa= mFuncs.lc_beep(loc_readerHandle, 2);
                 Log.d("MianBanJiActivity3", loc_readerHandle+"   "+ aa);
             }
-        }catch (UnsatisfiedLinkError error){
+        }catch (NoClassDefFoundError error){
             Log.d("MianBanJiActivity3", error.getMessage()+"");
         }
 
@@ -367,6 +367,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             error.printStackTrace();
         }
 
+
         initView();
 
         if (baoCunBean != null) {
@@ -432,12 +433,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                             //        , subject.getName(), subject.getDepartmentName());
                             soundPool.play(musicId.get(1), 1, 1, 0, 0, 1);
                             DengUT.getInstance(baoCunBean).openDool();
-                            DaKaBean daKaBean=new DaKaBean();
-                            daKaBean.setId2(subject.getTeZhengMa());
-                            daKaBean.setName(subject.getName());
-                            daKaBean.setBumen(subject.getDepartmentName());
-                            daKaBean.setTime2(System.currentTimeMillis());
-                            daKaBeanBox.put(daKaBean);
+
 
                             //启动定时器或重置定时器
                             if (task != null) {
@@ -1151,7 +1147,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                                 showUIResult(4,subject.getName(),"过期时间:"+DateUtils.time(subject.getEntryTime()+""));
                             }
                             msrBitmap = nv21ToBitmap.nv21ToBitmap(detectResult.rgbFrame, detectResult.frameWidth, detectResult.frameHeight);
-                            link_shangchuanshualian(subject.getTeZhengMa(), msrBitmap, "face_0");
+                            long bitmapId=System.currentTimeMillis();
+                            BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
+                            link_shangchuanshualian(subject.getTeZhengMa(), msrBitmap, "face_0",bitmapId);
 
                         }else {
                             if (!DengUT.isOPENRed) {
@@ -1161,7 +1159,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                             DengUT.isOPEN = true;
                             showUIResult(4,subject.getName(),"你的出入时间已过期");
                             msrBitmap = nv21ToBitmap.nv21ToBitmap(detectResult.rgbFrame, detectResult.frameWidth, detectResult.frameHeight);
-                            link_shangchuanshualian(subject.getTeZhengMa(), msrBitmap,  "face_1");
+                            long bitmapId=System.currentTimeMillis();
+                            BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
+                            link_shangchuanshualian(subject.getTeZhengMa(), msrBitmap,  "face_1",bitmapId);
                         }
                     } else {
                         EventBus.getDefault().post("没有查询到人员信息,或者存在多条人员信息");
@@ -1180,6 +1180,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                     if (feature2 == -1) {
                         feature2 = detectResult.trackId;
                         msrBitmap = nv21ToBitmap.nv21ToBitmap(detectResult.rgbFrame, detectResult.frameWidth, detectResult.frameHeight);
+                        long bitmapId=System.currentTimeMillis();
+                        BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
+                        link_shangchuanshualian("-1", msrBitmap,  "msl",bitmapId);
                         if (!baoCunBean.isMsrPanDing()){
                             return;
                         }
@@ -1209,6 +1212,10 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         msrBitmap = nv21ToBitmap.nv21ToBitmap(detectResult.rgbFrame, detectResult.frameWidth, detectResult.frameHeight);
                         // Bitmap bitmap = BitmapUtil.getBitmap(facePassFrame.frame, facePassFrame.frmaeWidth, facePassFrame.frameHeight, facePassFrame.frameOri);
                         //  bitmap = BitmapUtil.getCropBitmap(bitmap, facePassFrame.rectX, facePassFrame.rectY, facePassFrame.rectW, facePassFrame.rectH);
+                        long bitmapId=System.currentTimeMillis();
+                        BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
+                        link_shangchuanshualian("-1", msrBitmap,  "msl",bitmapId);
+
                         if (!baoCunBean.isMsrPanDing()){
                             return;
                         }
@@ -1572,8 +1579,16 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
 
     //上传记录
-    private void link_shangchuanshualian(String id, Bitmap bitmap, String pepopleType) {
+    private void link_shangchuanshualian(String id, Bitmap bitmap, String pepopleType,long bitmapId) {
         if (baoCunBean.getHoutaiDiZhi() == null || baoCunBean.getHoutaiDiZhi().equals("")) {
+            DaKaBean daKaBean=new DaKaBean();
+            daKaBean.setId(bitmapId);
+            daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+            daKaBean.setPersonId(id);
+            daKaBean.setTime(bitmapId);
+            daKaBean.setType("0");
+            daKaBean.setState(1);
+            daKaBeanBox.put(daKaBean);
             return;
         }
         Bitmap bb = BitmapUtil.rotateBitmap(bitmap, SettingVar.msrBitmapRotation);
@@ -1615,6 +1630,15 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                     tastyToast.show();
                 }
             });
+            DaKaBean daKaBean=new DaKaBean();
+            daKaBean.setId(bitmapId);
+            daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+            daKaBean.setPersonId(id);
+            daKaBean.setTime(bitmapId);
+            daKaBean.setType("0");
+            daKaBean.setState(1);
+            daKaBeanBox.put(daKaBean);
+
             return;
         }
         // step 3：创建 Call 对象
@@ -1625,6 +1649,15 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("AllConnects", "请求失败" + e.getMessage());
+                DaKaBean daKaBean=new DaKaBean();
+                daKaBean.setId(bitmapId);
+                daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+                daKaBean.setPersonId(id);
+                daKaBean.setTime(bitmapId);
+                daKaBean.setType("0");
+                daKaBean.setState(1);
+                daKaBeanBox.put(daKaBean);
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1642,6 +1675,16 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                 try {
                     ResponseBody body = response.body();
                     String ss = body.string().trim();
+
+
+                    DaKaBean daKaBean=new DaKaBean();
+                    daKaBean.setId(bitmapId);
+                    daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+                    daKaBean.setPersonId(id);
+                    daKaBean.setTime(bitmapId);
+                    daKaBean.setType("1");
+                    daKaBean.setState(1);
+                    daKaBeanBox.put(daKaBean);
 
                     Log.d("AllConnects", "上传识别记录" + ss);
 

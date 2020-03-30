@@ -6,31 +6,14 @@ import io.objectbox.annotation.Id;
 @Entity
 public class DaKaBean {
 
-    @Id
+    @Id(assignable = true)
     private Long id;
-    private String id2;
-    private String name;
-    private String bumen;
-    private String renyuanleixing;
-    private String time;
-    private long time2;
-    private String dianhua;
+    private String personId;
+    private String path;
+    private int state;
+    private String type;
+    private long time;
 
-    public long getTime2() {
-        return time2;
-    }
-
-    public void setTime2(long time2) {
-        this.time2 = time2;
-    }
-
-    public String getId2() {
-        return id2;
-    }
-
-    public void setId2(String id2) {
-        this.id2 = id2;
-    }
 
     public Long getId() {
         return id;
@@ -40,43 +23,44 @@ public class DaKaBean {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
-    public String getBumen() {
-        return bumen;
+    public String getPath() {
+        return path;
     }
 
-    public void setBumen(String bumen) {
-        this.bumen = bumen;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public String getRenyuanleixing() {
-        return renyuanleixing;
+    public int getState() {
+        return state;
     }
 
-    public void setRenyuanleixing(String renyuanleixing) {
-        this.renyuanleixing = renyuanleixing;
+    public void setState(int state) {
+        this.state = state;
     }
 
-    public String getTime() {
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
-    }
-
-    public String getDianhua() {
-        return dianhua;
-    }
-
-    public void setDianhua(String dianhua) {
-        this.dianhua = dianhua;
     }
 }

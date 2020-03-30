@@ -9,6 +9,8 @@ import android.util.Log;
 import android.util.Patterns;
 
 import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -47,6 +49,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -458,9 +461,21 @@ public class MyService2 {
             StringBody body = new StringBody("文件不存在");
             response.setBody(body);
         }
-
     }
 
+    //获取图片
+    @GetMapping(path = "/getFaceBitmap2")
+    public void getFaceBitmap2(HttpResponse response,@QueryParam(name = "id",required = true) String id){
+        File file=new File(MyApplication.SDPATH2+File.separator+id+".png");
+        if (file.exists()){
+            FileBody body = new FileBody(file);
+            response.addHeader("Content-Disposition", "attachment;filename="+id+".png");
+            response.setBody(body);
+        }else {
+            StringBody body = new StringBody("文件不存在");
+            response.setBody(body);
+        }
+    }
 
 //    10.人员创建
 //    请求地址：   http://设备IP:8090/person/create
@@ -621,7 +636,14 @@ public class MyService2 {
                         object.put("expireTime",subject.getEntryTime());
                         jsonArray.put(object);
                     }
-                    return requsBean(1,true,jsonArray.toString(),"获取成功");
+                    JSONObject object=new JSONObject();
+                    object.put("result",1);
+                    object.put("success",1);
+                    object.put("data",jsonArray);
+                    object.put("msg","查询成功");
+                    return object.toString();
+
+                  //  return requsBean(1,true,jsonArray.toString(),"获取成功");
                 }catch (Exception e){
                     return requsBean(-1,true,e.getMessage()+"","参数异常");
                 }
@@ -833,6 +855,7 @@ String facedelete(@RequestParam(name = "pass") String pass,
                         paAccessControl.deleteFaceById(subject.getFaceIds2());
                         paAccessControl.deleteFaceById(subject.getFaceIds3());
                         paAccessControl.startFrameDetect();
+                        subject.setFaceIds1(null);subject.setFaceIds2(null);subject.setFaceIds3(null);
                         subjectBox.put(subject);
                         return requsBean(1,true,"","删除成功");
                     }
@@ -847,10 +870,150 @@ String facedelete(@RequestParam(name = "pass") String pass,
         }
     }
 
+//    21.照片注册（url）
+//    请求地址：   http://设备IP:8090/face/createByUrl
+//    请求方法： POST
+
+@PostMapping("/face/createByUrl")
+String createByUrl(@RequestParam(name = "pass") String pass,
+                  @RequestParam(name = "personId") String personId,
+                  @RequestParam(name = "faceId") String faceId,
+                  @RequestParam(name = "imgUrl") String imgBase64){
+    if (pass!=null && pass.equals(this.pass)){
+        ;if (personId!=null && !personId.equals("") && imgBase64!=null && !imgBase64.equals("") && faceId!=null && !faceId.equals("")){
+            try {
+                Bitmap bitmap=null;
+                try {
+                    bitmap = Glide.with(MyApplication.myApplication).asBitmap()
+                            .load(imgBase64)
+                            // .sizeMultiplier(0.5f)
+                            .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                            .get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                if (bitmap==null)
+                    return requsBean(408, true, "", "下载图片失败");
+                Subject subject= subjectBox.query().equal(Subject_.teZhengMa,personId).build().findUnique();
+                if (subject==null)
+                    return requsBean(-1, true, "", "未找到该人员");
+                paAccessControl.stopFrameDetect();
+                PaAccessDetectFaceResult detectResult = paAccessControl.
+                        detectFaceByBitmap(bitmap,PaAccessControl.getInstance().getPaAccessDetectConfig());
+                //   Log.d(TAG, "detectResult:" + detectResult);
+                if (detectResult!=null && detectResult.message== PaAccessControlMessage.RESULT_OK) {
+                    BitmapUtil.saveBitmapToSD(bitmap, MyApplication.SDPATH3, faceId + ".png");
+                    //先查询有没有
+                    try {
+                        String subject1= subject.getFaceIds1();
+                        String subject2= subject.getFaceIds2();
+                        String subject3= subject.getFaceIds3();
+
+                        if (subject1==null){
+                            subject.setFaceIds1(faceId);
+                        }else if (subject2==null){
+                            subject.setFaceIds2(faceId);
+                        }else if (subject3==null){
+                            subject.setFaceIds3(faceId);
+                        }else {//都不为空
+                            return requsBean(-1, true, "", "注册失败,该人员超过三张注册照片,请先删除其中一张");
+                        }
+                        PaAccessFaceInfo face = paAccessControl.queryFaceById(faceId);
+                        if (face != null) {
+                            paAccessControl.deleteFaceById(face.faceId);
+                        }
+                        paAccessControl.addFace(faceId, detectResult.feature, MyApplication.GROUP_IMAGE);
+                        subjectBox.put(subject);
+                        paAccessControl.startFrameDetect();
+                        return requsBean(1, true, "", "注册成功");
+                    } catch (Exception e) {
+                        paAccessControl.startFrameDetect();
+                        return requsBean(-1, true, e.getMessage() + "", "参数异常");
+                    }
+                }else {
+                    return requsBean(-1, true, "", "照片不符合入库标准");
+                }
+            } catch (Exception e) {
+                paAccessControl.startFrameDetect();
+                return requsBean(-1, true, e.getMessage() + "", "参数异常");
+            }
+        }else {
+            return requsBean(400,true,"","参数验证失败");
+        }
+    }else {
+        return requsBean(401,true,"","签名校验失败");
+    }
+}
+
+//22.照片查询
+//    请求地址：  http://设备IP:8090/face/find
+//    请求方法： POST
+@PostMapping("/face/find")
+Object facefind(@RequestParam(name = "pass") String pass,
+              @RequestParam(name = "personId") String person){
+    if (pass!=null && pass.equals(this.pass)){
+        ;if (person!=null && !person.equals("")){
+            try {
+                Subject subject= subjectBox.query().equal(Subject_.teZhengMa,person).build().findUnique();
+                if (subject!=null){
+                    JSONArray array=new JSONArray();
+
+                    if (subject.getFaceIds1()!=null){
+                        JSONObject object=new JSONObject();
+                        object.put("faceId",subject.getFaceIds1());
+                        object.put("path","http://" + FileUtil.getIPAddress(MyApplication.myApplication) + ":" + baoCunBean.getPort() + "/getFaceBitmap?id=" + subject.getFaceIds1());
+                        object.put("personId",subject.getTeZhengMa());
+                        array.put(object);
+                    }
+                    if (subject.getFaceIds2()!=null){
+                        JSONObject object=new JSONObject();
+                        object.put("faceId",subject.getFaceIds2());
+                        object.put("path","http://" + FileUtil.getIPAddress(MyApplication.myApplication) + ":" + baoCunBean.getPort() + "/getFaceBitmap?id=" + subject.getFaceIds2());
+                        object.put("personId",subject.getTeZhengMa());
+                        array.put(object);
+                    }
+                    if (subject.getFaceIds3()!=null){
+                        JSONObject object=new JSONObject();
+                        object.put("faceId",subject.getFaceIds3());
+                        object.put("path","http://" + FileUtil.getIPAddress(MyApplication.myApplication) + ":" + baoCunBean.getPort() + "/getFaceBitmap?id=" + subject.getFaceIds3());
+                        object.put("personId",subject.getTeZhengMa());
+                        array.put(object);
+                    }
+                    JSONObject object=new JSONObject();
+                    object.put("result",1);
+                    object.put("success",1);
+                    object.put("data",array);
+                    object.put("msg","查询成功");
+                    return object.toString();
+                   // return requsBean(1,true,array.toString(),"查询成功");
+                }else {
+                    return requsBean(408,true,"","未找到该人员信息");
+                }
+            }catch (Exception e){
+                return requsBean(-1,true,e.getMessage()+"","参数异常");
+            }
+
+        }else {
+            return requsBean(400,true,"","参数验证失败");
+        }
+    }else {
+        return requsBean(401,true,"","签名校验失败");
+    }
+}
+
+
+//25.刷脸记录查询
+//    请求地址：  http://设备IP:8090/findRecords
+//    请求方法： POST
+
+
+
     private String requsBean(int result,boolean success,Object data){
         return JSON.toJSONString(new ResBean(result,success,data));
     }
     private String requsBean(int result,boolean success,Object data,String msg){
+
         return JSON.toJSONString(new ResBean(result,success,data,msg));
     }
+
 }
