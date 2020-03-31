@@ -131,10 +131,10 @@ public class ExcelUtil {
                 for (int j = 0; j < objList.size(); j++) {
                     DaKaBean projectBean = (DaKaBean) objList.get(j);
                     List<String> list = new ArrayList<>();
-                    list.add(projectBean.getId2());
-                    list.add(projectBean.getName());
-                    list.add(projectBean.getBumen()+"");
-                    list.add(DateUtils.time(projectBean.getTime2()+""));
+                    list.add(projectBean.getPersonId());
+                    list.add(projectBean.getType());
+                    list.add(projectBean.getType()+"");
+                    list.add(DateUtils.time(projectBean.getPath()+""));
 
                     for (int i = 0; i < list.size(); i++) {
                         sheet.addCell(new Label(i, j + 1, list.get(i), arial12format));
@@ -200,11 +200,11 @@ public class ExcelUtil {
                 for (int j = 0; j < objList.size(); j++) {
                     DaKaBean projectBean = (DaKaBean) objList.get(j);
                     List<String> list = new ArrayList<>();
-                    list.add(projectBean.getId2());
-                    list.add(projectBean.getName());
-                    list.add(projectBean.getBumen()+"");
-                    list.add(projectBean.getRenyuanleixing()+"");
-                    list.add(DateUtils.time(projectBean.getTime2()+""));
+                    list.add(projectBean.getType());
+                 //   list.add(projectBean.getName());
+                //    list.add(projectBean.getBumen()+"");
+                //    list.add(projectBean.getRenyuanleixing()+"");
+                 //   list.add(DateUtils.time(projectBean.getTime2()+""));
 
                     for (int i = 0; i < list.size(); i++) {
                         sheet.addCell(new Label(i, j + 1, list.get(i), arial12format));

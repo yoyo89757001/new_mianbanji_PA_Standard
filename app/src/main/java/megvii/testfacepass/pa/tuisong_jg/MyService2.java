@@ -1005,7 +1005,54 @@ Object facefind(@RequestParam(name = "pass") String pass,
 //25.刷脸记录查询
 //    请求地址：  http://设备IP:8090/findRecords
 //    请求方法： POST
+@PostMapping("/findRecords")
+String findRecords(@RequestParam(name = "pass") String pass,
+                  @RequestParam(name = "personId") String personId,
+                  @RequestParam(name = "length") String length,
+                   @RequestParam(name = "index") String index,
+                   @RequestParam(name = "startTime") String startTime,
+                   @RequestParam(name = "endTime") String endTime){
+    if (pass!=null && pass.equals(this.pass)){
+            try {
+                int ind=Integer.parseInt(index);
+                int len=Integer.parseInt(length);
+                JSONArray jsonArray=new JSONArray();
+                long min=0,max=0;
+                min=Long.parseLong(startTime);
+                max=Long.parseLong(endTime);
+                List<DaKaBean> subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).between(DaKaBean_.time,min,max).build().find(ind,len);
+                for (DaKaBean subject:subjectList){
+//                        PersonsBean personsBean=new PersonsBean();
+//                        personsBean.setId(subject.getTeZhengMa());
+//                        personsBean.setName(subject.getName());
+//                        personsBean.setIdcardNum(subject.getIdcardNum());
+//                        personsBean.setExpireTime(subject.getEntryTime());
+//                        Log.d(TAG, JSON.toJSONString(personsBean));
+                    JSONObject object=new JSONObject();
+                    object.put("id",subject.getId());
+                    object.put("path",subject.getPath());
+                    object.put("personId",subject.getPersonId());
+                    object.put("state",subject.getState());
+                    object.put("time",subject.getTime());
+                    object.put("type",subject.getType());
+                    jsonArray.put(object);
+                }
+                JSONObject object=new JSONObject();
+                object.put("result",1);
+                object.put("success",1);
+                object.put("data",jsonArray);
+                object.put("msg","查询成功");
+                return object.toString();
 
+                //  return requsBean(1,true,jsonArray.toString(),"获取成功");
+            }catch (Exception e){
+                return requsBean(-1,true,e.getMessage()+"","参数异常");
+            }
+
+    }else {
+        return requsBean(401,true,"","签名校验失败");
+    }
+}
 
 
     private String requsBean(int result,boolean success,Object data){

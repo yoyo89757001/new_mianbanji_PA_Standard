@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -65,6 +66,8 @@ import com.pingan.ai.access.result.PaAccessCompareFacesResult;
 import com.pingan.ai.access.result.PaAccessDetectFaceResult;
 import com.pingan.ai.access.result.PaAccessMultiFaceBaseInfo;
 import com.sdsmdg.tastytoast.TastyToast;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -156,7 +159,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
     private Box<IDCardBean> idCardBeanBox = MyApplication.myApplication.getIdCardBeanBox();
-    private static ServerManager serverManager;
+    private  ServerManager serverManager=null;
     private Bitmap msrBitmap = null;
     //    private RequestOptions myOptions = new RequestOptions()
 //            .fitCenter()
@@ -238,7 +241,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     LinearInterpolator lir_gif;
     private Box<IDCardTakeBean> idCardTakeBeanBox=MyApplication.myApplication.getIdCardTakeBeanBox();
     private int jiqiType=-1;
-    private boolean isGET = true;
+   // private boolean isGET = true;
     private PaAccessDetectConfig paAccessDetectConfig;
     private int cishu=30;
     private int jidianqi=5000;
@@ -266,64 +269,24 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         mCompareThres = baoCunBean.getShibieFaZhi();
         if (baoCunBean.getDangqianChengShi2()!=null){
             switch (baoCunBean.getDangqianChengShi2()){
-                case "天波":
+                case "智连":
                     jiqiType=0;
                     break;
-                case "涂鸦":
+                case "亮钻":
                     jiqiType=1;
                     break;
-                case "户外防水8寸屏":
+                case "涂鸦":
                     jiqiType=2;
                     break;
-                case "高通8寸屏":
-                    jiqiType=3;
-                    break;
             }
         }
-        try {
-            mFuncs = new Function(this, mHandler);
-            loc_readerHandle = mFuncs.lc_init_ex(1, "/dev/ttyS1".toCharArray(), Integer.parseInt("9600"));
-            if(loc_readerHandle == -1)
-            {
-                Toast.makeText(getApplicationContext(), "连接读卡器失败", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                int aa= mFuncs.lc_beep(loc_readerHandle, 2);
-                Log.d("MianBanJiActivity3", loc_readerHandle+"   "+ aa);
-            }
-        }catch (NoClassDefFoundError error){
-            Log.d("MianBanJiActivity3", error.getMessage()+"");
+
+
+        if (serverManager == null) {
+            serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), baoCunBean.getPort());
+            serverManager.setMyServeInterface(MianBanJiActivity3.this);
+            serverManager.startServer();
         }
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true){
-//                    int st = 0;
-//                    byte[] rData = new byte[128];
-//                    int[] rlen = new int[2];
-//                    if (loc_readerHandle!=-1){
-//                        Log.d("MianBanJiActivity3", "ffffffff:"+loc_readerHandle);
-//                        st = mFuncs.lc_getAutoReturnedData(loc_readerHandle, rData, rlen);
-//                        Log.d("MianBanJiActivity3", "hh哈哈:"+st);
-//                        if (st == 0)
-//                        {
-//                            String showStr="";
-//                            int len=rlen[0];
-//                            for(int i= 0; i<len; i++)
-//                                showStr = showStr + " " + byteToHexString(rData[i]);
-//                            Log.d("MianBanJiActivity3", showStr);
-//                            String sdfds = byteToString(rData);
-//                            Log.d("MianBanJiActivity3", sdfds);
-//
-//                        }
-//                    }
-//                }
-//
-//            }
-//        }).start();
-
 
         //每分钟的广播
         // private TodayBean todayBean = null;
@@ -359,13 +322,14 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         musicId.put(5, soundPool.load(this, R.raw.shuaka, 1));
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-        try {
+        try {//配置微波雷达
             lztek=Lztek.create(MyApplication.myApplication);
             lztek.gpioEnable(218);
             lztek.setGpioOutputMode(218);
         }catch (NoClassDefFoundError error){
             error.printStackTrace();
         }
+
 
 
         initView();
@@ -415,9 +379,9 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             Log.d("MianBanJiActivity", e.getMessage() + "dddddddd");
         }
 
-        mReadThread = new ReadThread();
-        mReadThread.start();
 
+  //      mReadThread = new ReadThread();
+//        mReadThread.start();
 
 
         mHandler = new Handler(new Handler.Callback() {
@@ -485,52 +449,25 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
                         if (paAccessControl != null)
                             paAccessControl.stopFrameDetect();
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                xiping.setVisibility(View.VISIBLE);
-//                                tishiyu.setVisibility(View.VISIBLE);
-//                            }
-//                        });
-//                        anim = ValueAnimator.ofFloat(0, 1.0f);
-//                        anim.setDuration(4000);
-//                        anim.setRepeatMode(ValueAnimator.REVERSE);
-//                        anim.setRepeatCount(-1);
-//                        Interpolator interpolator = new LinearInterpolator();
-//                        anim.setInterpolator(interpolator);
-//                        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                            @Override
-//                            public void onAnimationUpdate(ValueAnimator animation) {
-//                                float currentValue = (Float) animation.getAnimatedValue();
-//                                tishiyu.setAlpha(currentValue);
-//                                // 步骤5：刷新视图，即重新绘制，从而实现动画效果
-//                                tishiyu.requestLayout();
-//                            }
-//                        });
-//                        anim.start();
                         DengUT.getInstance(baoCunBean).closeLOED();
+                        break;
+                    case 777://IC卡数据
+                      String icdata = (String) msg.obj;
+                      if (icdata!=null){
+                          Log.d("MianBanJiActivity3", icdata);
+
+                      }
                         break;
 
                 }
                 return false;
             }
         });
-        NfcManager mNfcManager = (NfcManager) getSystemService(Context.NFC_SERVICE);
-        mNfcAdapter = mNfcManager.getDefaultAdapter();
-        if (mNfcAdapter == null) {
-            Toast tastyToast = TastyToast.makeText(MianBanJiActivity3.this, "设备不支持NFC", TastyToast.LENGTH_LONG, TastyToast.INFO);
-            tastyToast.setGravity(Gravity.CENTER, 0, 0);
-            tastyToast.show();
-        } else if (!mNfcAdapter.isEnabled()) {
-            Toast tastyToast = TastyToast.makeText(MianBanJiActivity3.this, "请先去设置里面打开NFC开关", TastyToast.LENGTH_LONG, TastyToast.INFO);
-            tastyToast.setGravity(Gravity.CENTER, 0, 0);
-            tastyToast.show();
-        } else if ((mNfcAdapter != null) && (mNfcAdapter.isEnabled())) {
 
-        }
-        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()), 0);
+
         init_NFC();
 
+        initICKa();
 
         manager.open(getWindowManager(), SettingVar.cameraId, cameraWidth, cameraHeight);//前置是1
         if (baoCunBean.isHuoTi()) {
@@ -542,20 +479,10 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         }
         guanPing();//关屏
 
-
     }
 
 
-    private String  byteToHexString(byte mByte)
-    {
-        String hexStr;
 
-        hexStr = Integer.toHexString(mByte & 0xff);
-        if(hexStr.length() == 1)
-            hexStr = '0'+ hexStr;
-
-        return hexStr;
-    }
 
     @OnClick(R.id.root_layout)
     public void onViewClicked() {
@@ -662,15 +589,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     @Override
     protected void onResume() {
         Log.d("MianBanJiActivity3", "重新开始");
-
-        if (serverManager != null) {
-            serverManager.stopServer();
-            serverManager = null;
-        }
         Log.d("MianBanJiActivity3", System.currentTimeMillis()+"");
-        serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), baoCunBean.getPort());
-        serverManager.setMyServeInterface(MianBanJiActivity3.this);
-        serverManager.startServer();
 
         super.onResume();
         if (mNfcAdapter != null) {
@@ -686,110 +605,110 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             registerReceiver(netWorkStateReceiver, filter);
         }
 
-        if (baoCunBean.getDangqianChengShi2() != null && baoCunBean.getDangqianChengShi2().equals("天波")) {
-            if (mTimerTask == null) {
-                mTimerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        int ret = TPS980PosUtil.getPriximitySensorStatus();
-                        if (ret == 1) {
-                            isPM2 = true;
-                            //有人
-                            if (isPM) {
-                                isPM = false;
-                                onP1 = true;
-                                onP2 = true;
-                                pm = 0;
-                                if (paAccessControl != null)
-                                    paAccessControl.startFrameDetect();
-                                Message message = new Message();
-                                message.what = 333;
-                                mHandler.sendMessage(message);
-                            }
-                        } else {
-                            isPM = true;
-                            if (isPM2) {
-                                pm++;
-                                if (pm == 8) {
-                                    if (paAccessControl != null)
-                                        paAccessControl.stopFrameDetect();
-                                    Message message = new Message();
-                                    message.what = 444;
-                                    mHandler.sendMessage(message);
-                                    isPM2 = false;
-                                    onP1 = false;
-                                    onP2 = false;
-                                    pm = 0;
-                                }
-                            }
-                        }
-                    }
-                };
-            }
-            if (mTimer == null) {
-                mTimer = new Timer();
-            }
-            mTimer.schedule(mTimerTask, 0, 1000);
-        }
-        if (baoCunBean.getDangqianChengShi2() != null && baoCunBean.getDangqianChengShi2().equals("涂鸦") && paAccessControl != null) {
-            Sensor defaultSensor = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-            sm.registerListener(this, defaultSensor, SensorManager.SENSOR_DELAY_NORMAL);
-            if (mTimerTask == null) {
-                mTimerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (juli > 0) {
-                            isPM2 = true;
-                            //有人
-                            if (isPM) {
-                                isPM = false;
-                                onP1 = true;
-                                onP2 = true;
-                                pm = 0;
-                                if (paAccessControl != null)
-                                    paAccessControl.startFrameDetect();
-                                Message message = new Message();
-                                message.what = 333;
-                                mHandler.sendMessage(message);
-                            }
-                        } else {
-                            isPM = true;
-                            if (isPM2) {
-                                pm++;
-                                if (pm == 8) {
-                                    if (paAccessControl != null)
-                                        paAccessControl.stopFrameDetect();
-                                    Message message = new Message();
-                                    message.what = 444;
-                                    mHandler.sendMessage(message);
-                                    isPM2 = false;
-                                    onP1 = false;
-                                    onP2 = false;
-                                    pm = 0;
-
-                                    if (DengUT.isOPENRed) {
-                                        DengUT.isOPENRed = false;
-                                        DengUT.getInstance(baoCunBean).closeRed();
-                                    }
-                                    if (DengUT.isOPENGreen) {
-                                        DengUT.isOPENGreen = false;
-                                        DengUT.getInstance(baoCunBean).closeGreen();
-                                    }
-                                    if (DengUT.isOPEN) {
-                                        DengUT.isOPEN = false;
-                                        DengUT.getInstance(baoCunBean).closeWrite();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-            }
-            if (mTimer == null) {
-                mTimer = new Timer();
-            }
-            mTimer.schedule(mTimerTask, 0, 1000);
-        }
+//        if (baoCunBean.getDangqianChengShi2() != null && baoCunBean.getDangqianChengShi2().equals("天波")) {
+//            if (mTimerTask == null) {
+//                mTimerTask = new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        int ret = TPS980PosUtil.getPriximitySensorStatus();
+//                        if (ret == 1) {
+//                            isPM2 = true;
+//                            //有人
+//                            if (isPM) {
+//                                isPM = false;
+//                                onP1 = true;
+//                                onP2 = true;
+//                                pm = 0;
+//                                if (paAccessControl != null)
+//                                    paAccessControl.startFrameDetect();
+//                                Message message = new Message();
+//                                message.what = 333;
+//                                mHandler.sendMessage(message);
+//                            }
+//                        } else {
+//                            isPM = true;
+//                            if (isPM2) {
+//                                pm++;
+//                                if (pm == 8) {
+//                                    if (paAccessControl != null)
+//                                        paAccessControl.stopFrameDetect();
+//                                    Message message = new Message();
+//                                    message.what = 444;
+//                                    mHandler.sendMessage(message);
+//                                    isPM2 = false;
+//                                    onP1 = false;
+//                                    onP2 = false;
+//                                    pm = 0;
+//                                }
+//                            }
+//                        }
+//                    }
+//                };
+//            }
+//            if (mTimer == null) {
+//                mTimer = new Timer();
+//            }
+//            mTimer.schedule(mTimerTask, 0, 1000);
+//        }
+//        if (baoCunBean.getDangqianChengShi2() != null && baoCunBean.getDangqianChengShi2().equals("涂鸦") && paAccessControl != null) {
+//            Sensor defaultSensor = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+//            sm.registerListener(this, defaultSensor, SensorManager.SENSOR_DELAY_NORMAL);
+//            if (mTimerTask == null) {
+//                mTimerTask = new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        if (juli > 0) {
+//                            isPM2 = true;
+//                            //有人
+//                            if (isPM) {
+//                                isPM = false;
+//                                onP1 = true;
+//                                onP2 = true;
+//                                pm = 0;
+//                                if (paAccessControl != null)
+//                                    paAccessControl.startFrameDetect();
+//                                Message message = new Message();
+//                                message.what = 333;
+//                                mHandler.sendMessage(message);
+//                            }
+//                        } else {
+//                            isPM = true;
+//                            if (isPM2) {
+//                                pm++;
+//                                if (pm == 8) {
+//                                    if (paAccessControl != null)
+//                                        paAccessControl.stopFrameDetect();
+//                                    Message message = new Message();
+//                                    message.what = 444;
+//                                    mHandler.sendMessage(message);
+//                                    isPM2 = false;
+//                                    onP1 = false;
+//                                    onP2 = false;
+//                                    pm = 0;
+//
+//                                    if (DengUT.isOPENRed) {
+//                                        DengUT.isOPENRed = false;
+//                                        DengUT.getInstance(baoCunBean).closeRed();
+//                                    }
+//                                    if (DengUT.isOPENGreen) {
+//                                        DengUT.isOPENGreen = false;
+//                                        DengUT.getInstance(baoCunBean).closeGreen();
+//                                    }
+//                                    if (DengUT.isOPEN) {
+//                                        DengUT.isOPEN = false;
+//                                        DengUT.getInstance(baoCunBean).closeWrite();
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                };
+//            }
+//            if (mTimer == null) {
+//                mTimer = new Timer();
+//            }
+//            mTimer.schedule(mTimerTask, 0, 1000);
+//        }
 
         if (baoCunBean.getDangqianChengShi2() != null && baoCunBean.getDangqianChengShi2().equals("户外防水8寸屏") && paAccessControl != null) {
             if (lztek!=null){
@@ -896,10 +815,39 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     @Override
     public void onStopped() {
         Log.d("MianBanJiActivity3", "小服务器停止");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ZLoadingDialog zLoadingDialog = new ZLoadingDialog(MianBanJiActivity3.this);
+                zLoadingDialog.setLoadingBuilder(Z_TYPE.DOUBLE_CIRCLE)//设置类型
+                        .setLoadingColor(Color.parseColor("#0d2cf9"))//颜色
+                        .setHintText("服务器停止,请重启...")
+                        .setHintTextSize(20) // 设置字体大小 dp
+                        .setHintTextColor(Color.WHITE)  // 设置字体颜色
+                        .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                        .setDialogBackgroundColor(Color.parseColor("#CC111111")) // 设置背景色，默认白色
+                        .show();
+            }
+        });
+
     }
 
     @Override
     public void onException(Exception e) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ZLoadingDialog zLoadingDialog = new ZLoadingDialog(MianBanJiActivity3.this);
+                zLoadingDialog.setLoadingBuilder(Z_TYPE.DOUBLE_CIRCLE)//设置类型
+                        .setLoadingColor(Color.parseColor("#0d2cf9"))//颜色
+                        .setHintText("服务器异常,请重启...")
+                        .setHintTextSize(20) // 设置字体大小 dp
+                        .setHintTextColor(Color.WHITE)  // 设置字体颜色
+                        .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                        .setDialogBackgroundColor(Color.parseColor("#CC111111")) // 设置背景色，默认白色
+                        .show();
+            }
+        });
         Log.d("MianBanJiActivity3", "小服务器异常" + e);
     }
 
@@ -1151,17 +1099,13 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                             BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
                             link_shangchuanshualian(subject.getTeZhengMa(), msrBitmap, "face_0",bitmapId);
 
-                        }else {
-                            if (!DengUT.isOPENRed) {
-                                DengUT.isOPENRed = true;
-                                DengUT.getInstance(baoCunBean).openRed();
-                            }
-                            DengUT.isOPEN = true;
-                            showUIResult(4,subject.getName(),"你的出入时间已过期");
-                            msrBitmap = nv21ToBitmap.nv21ToBitmap(detectResult.rgbFrame, detectResult.frameWidth, detectResult.frameHeight);
-                            long bitmapId=System.currentTimeMillis();
-                            BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
-                            link_shangchuanshualian(subject.getTeZhengMa(), msrBitmap,  "face_1",bitmapId);
+                        }else {//时间过期删除
+                            paAccessControl.stopFrameDetect();
+                            paAccessControl.deleteFaceById(subject.getFaceIds1());
+                            paAccessControl.deleteFaceById(subject.getFaceIds2());
+                            paAccessControl.deleteFaceById(subject.getFaceIds3());
+                            subjectBox.remove(subject);
+                            paAccessControl.startFrameDetect();
                         }
                     } else {
                         EventBus.getDefault().post("没有查询到人员信息,或者存在多条人员信息");
@@ -1181,8 +1125,8 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         feature2 = detectResult.trackId;
                         msrBitmap = nv21ToBitmap.nv21ToBitmap(detectResult.rgbFrame, detectResult.frameWidth, detectResult.frameHeight);
                         long bitmapId=System.currentTimeMillis();
-                        BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
-                        link_shangchuanshualian("-1", msrBitmap,  "msl",bitmapId);
+                       // BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
+                        link_shangchuanshualian("-1", msrBitmap,  "msl_0",bitmapId);
                         if (!baoCunBean.isMsrPanDing()){
                             return;
                         }
@@ -1213,8 +1157,8 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                         // Bitmap bitmap = BitmapUtil.getBitmap(facePassFrame.frame, facePassFrame.frmaeWidth, facePassFrame.frameHeight, facePassFrame.frameOri);
                         //  bitmap = BitmapUtil.getCropBitmap(bitmap, facePassFrame.rectX, facePassFrame.rectY, facePassFrame.rectW, facePassFrame.rectH);
                         long bitmapId=System.currentTimeMillis();
-                        BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
-                        link_shangchuanshualian("-1", msrBitmap,  "msl",bitmapId);
+                       // BitmapUtil.saveBitmapToSD(msrBitmap,MyApplication.SDPATH2,bitmapId+".png");
+                        link_shangchuanshualian("-1", msrBitmap,  "msl_0",bitmapId);
 
                         if (!baoCunBean.isMsrPanDing()){
                             return;
@@ -1498,13 +1442,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                     String xiaoshiss = DateUtils.timeMinute(System.currentTimeMillis() + "");
                     if (xiaoshiss.split(":")[0].equals("03") && xiaoshiss.split(":")[1].equals("40")) {
 
-                        if (serverManager != null) {
-                            serverManager.stopServer();
-                            serverManager = null;
-                        }
-                        serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), baoCunBean.getPort());
-                        serverManager.setMyServeInterface(MianBanJiActivity3.this);
-                        serverManager.startServer();
+                        Log.d("TimeChangeReceiver", "ddd");
                     }
 
 
@@ -1583,7 +1521,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         if (baoCunBean.getHoutaiDiZhi() == null || baoCunBean.getHoutaiDiZhi().equals("")) {
             DaKaBean daKaBean=new DaKaBean();
             daKaBean.setId(bitmapId);
-            daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+            daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + bitmapId);
             daKaBean.setPersonId(id);
             daKaBean.setTime(bitmapId);
             daKaBean.setType("0");
@@ -1632,7 +1570,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             });
             DaKaBean daKaBean=new DaKaBean();
             daKaBean.setId(bitmapId);
-            daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+            daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + bitmapId);
             daKaBean.setPersonId(id);
             daKaBean.setTime(bitmapId);
             daKaBean.setType("0");
@@ -1651,7 +1589,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                 Log.d("AllConnects", "请求失败" + e.getMessage());
                 DaKaBean daKaBean=new DaKaBean();
                 daKaBean.setId(bitmapId);
-                daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+                daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + bitmapId);
                 daKaBean.setPersonId(id);
                 daKaBean.setTime(bitmapId);
                 daKaBean.setType("0");
@@ -1679,7 +1617,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
                     DaKaBean daKaBean=new DaKaBean();
                     daKaBean.setId(bitmapId);
-                    daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + id);
+                    daKaBean.setPath("http://" + FileUtil.getIPAddress(getApplicationContext()) + ":" + baoCunBean.getPort() + "/getFaceBitmap2?id=" + bitmapId);
                     daKaBean.setPersonId(id);
                     daKaBean.setTime(bitmapId);
                     daKaBean.setType("1");
@@ -1874,21 +1812,18 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         this.sendBroadcast(intent);
         sendBroadcast(new Intent("com.android.internal.policy.impl.hideNavigationBar"));
         sendBroadcast(new Intent("com.android.systemui.statusbar.phone.statusclose"));
-        if (jiqiType==2){//8寸防水面板机
-            try {
-                Lztek lztek=Lztek.create(MyApplication.myApplication);
-                lztek.navigationBarSlideShow(false);
-                lztek.hideNavigationBar();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            try {
-                HwitManager.HwitSetHideSystemBar(MianBanJiActivity3.this);
-                HwitManager.HwitSetDisableSlideShowSysBar(1);
-            }catch (NoClassDefFoundError error){
-                error.printStackTrace();
-            }
-
+        try {
+            Lztek lztek = Lztek.create(MyApplication.myApplication);
+            lztek.navigationBarSlideShow(false);
+            lztek.hideNavigationBar();
+        } catch (NoClassDefFoundError e) {
+            e.printStackTrace();
+        }
+        try {
+            HwitManager.HwitSetHideSystemBar(MianBanJiActivity3.this);
+            HwitManager.HwitSetDisableSlideShowSysBar(1);
+        } catch (NoClassDefFoundError error) {
+            Log.d("MianBanJiActivity3", error.getMessage() + "ddfffffff");
         }
 
     }
@@ -1938,6 +1873,21 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
 
 
     private void init_NFC() {
+        NfcManager mNfcManager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+        mNfcAdapter = mNfcManager.getDefaultAdapter();
+        if (mNfcAdapter == null) {
+            Toast tastyToast = TastyToast.makeText(MianBanJiActivity3.this, "设备不支持NFC", TastyToast.LENGTH_LONG, TastyToast.INFO);
+            tastyToast.setGravity(Gravity.CENTER, 0, 0);
+            tastyToast.show();
+        } else if (!mNfcAdapter.isEnabled()) {
+            Toast tastyToast = TastyToast.makeText(MianBanJiActivity3.this, "请先去设置里面打开NFC开关", TastyToast.LENGTH_LONG, TastyToast.INFO);
+            tastyToast.setGravity(Gravity.CENTER, 0, 0);
+            tastyToast.show();
+        } else if ((mNfcAdapter != null) && (mNfcAdapter.isEnabled())) {
+
+        }
+        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()), 0);
+
         IntentFilter tagDetected = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
         tagDetected.addCategory(Intent.CATEGORY_DEFAULT);
     }
@@ -2043,52 +1993,10 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         public void onReceive(Context context, Intent intent) {
 
             //检测API是不是小于23，因为到了API23之后getNetworkInfo(int networkType)方法被弃用
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 
-                //获得ConnectivityManager对象
-                ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-                //获取ConnectivityManager对象对应的NetworkInfo对象
-                //以太网
-                NetworkInfo wifiNetworkInfo1 = connMgr.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET);
-                //获取WIFI连接的信息
-                NetworkInfo wifiNetworkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-                //获取移动数据连接的信息
-                NetworkInfo dataNetworkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-                if (wifiNetworkInfo1.isConnected() || wifiNetworkInfo.isConnected() || dataNetworkInfo.isConnected()) {
-                    //有网
-                    Log.d("MianBanJiActivity3", "有网1");
-                    if (serverManager != null) {
-                        serverManager.stopServer();
-                        serverManager = null;
-                    }
-                    serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), baoCunBean.getPort());
-                    serverManager.setMyServeInterface(MianBanJiActivity3.this);
-                    serverManager.startServer();
-
-                } else {
-                    //没网
-                    Log.d("MianBanJiActivity3", "没网1");
-                    if (serverManager != null) {
-                        serverManager.stopServer();
-                        serverManager = null;
-                    }
-                }
-
-//				if (wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected()) {
-//					Toast.makeText(context, "WIFI已连接,移动数据已连接", Toast.LENGTH_SHORT).show();
-//				} else if (wifiNetworkInfo.isConnected() && !dataNetworkInfo.isConnected()) {
-//					Toast.makeText(context, "WIFI已连接,移动数据已断开", Toast.LENGTH_SHORT).show();
-//				} else if (!wifiNetworkInfo.isConnected() && dataNetworkInfo.isConnected()) {
-//					Toast.makeText(context, "WIFI已断开,移动数据已连接", Toast.LENGTH_SHORT).show();
-//				} else {
-//					Toast.makeText(context, "WIFI已断开,移动数据已断开", Toast.LENGTH_SHORT).show();
-//				}
-//API大于23时使用下面的方式进行网络监听
-            } else {
-
-                //获得ConnectivityManager对象
-                ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            //获得ConnectivityManager对象
+            ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connMgr!=null){
                 //获取所有网络连接的信息
                 Network[] networks = connMgr.getAllNetworks();
                 //用于存放网络连接信息
@@ -2098,29 +2006,30 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                 if (networks.length == 0) {
                     //没网
                     Log.d("MianBanJiActivity3", "没网2");
-                    if (serverManager != null) {
-                        serverManager.stopServer();
-                        serverManager = null;
-                    }
+//                if (serverManager != null) {
+//                    serverManager.stopServer();
+//                    serverManager = null;
+//                }
                 }
                 for (Network network : networks) {
                     //获取ConnectivityManager对象对应的NetworkInfo对象
                     NetworkInfo networkInfo = connMgr.getNetworkInfo(network);
-                    if (networkInfo.isConnected()) {
+                    if (networkInfo!=null && networkInfo.isConnected()) {
                         //连接上
                         Log.d("MianBanJiActivity3", "有网2");
-                        if (serverManager != null) {
-                            serverManager.stopServer();
-                            serverManager = null;
-                        }
-                        serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), baoCunBean.getPort());
-                        serverManager.setMyServeInterface(MianBanJiActivity3.this);
-                        serverManager.startServer();
+
+//                    if (serverManager != null) {
+//                       serverManager.stopServer();
+//                        serverManager = null;
+//                    }
+//                    serverManager = new ServerManager(FileUtil.getIPAddress(getApplicationContext()), baoCunBean.getPort());
+//                    serverManager.setMyServeInterface(MianBanJiActivity3.this);
+//                    serverManager.startServer();
                         break;
                     }
                 }
-
             }
+
         }
     }
 
@@ -2221,6 +2130,65 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
                 }
             }
         });
+    }
+
+
+   private void initICKa(){
+       try {
+           mFuncs = new Function(this, mHandler);
+           loc_readerHandle = mFuncs.lc_init_ex(1, "/dev/ttyS1".toCharArray(), Integer.parseInt("9600"));
+           if(loc_readerHandle == -1)
+           {
+               Toast.makeText(getApplicationContext(), "连接读卡器失败", Toast.LENGTH_SHORT).show();
+           }else {
+                   int aa= mFuncs.lc_beep(loc_readerHandle, 2);
+                   new Thread(new Runnable() {
+                       @Override
+                       public void run() {
+                           while (true){
+                               int st = 0;
+                               byte[] rData = new byte[128];
+                               int[] rlen = new int[2];
+                               if (loc_readerHandle!=-1){
+                                   //  Log.d("MianBanJiActivity3", "ffffffff:"+loc_readerHandle);
+                                   st = mFuncs.lc_getAutoReturnedData(loc_readerHandle, rData, rlen);
+                                   //   Log.d("MianBanJiActivity3", "hh哈哈:"+st);
+                                   if (st == 0)
+                                   {
+                                       StringBuilder showStr= new StringBuilder();
+                                       int len=rlen[0];
+                                       for(int i= 0; i<len; i++)
+                                           showStr.append(byteToHexString(rData[i]));
+                                       Log.d("MianBanJiActivity3", showStr.toString()+"读出的IC卡数据");
+                                       //String sdfds = byteToString(rData);
+                                       Message message = new Message();
+                                       message.what = 777;
+                                       message.obj=showStr.toString();
+                                       mHandler.sendMessage(message);
+                                       // Log.d("MianBanJiActivity3", sdfds+"读出的数据");
+                                   }
+                               }
+                               SystemClock.sleep(20);
+                           }
+
+                       }
+                   }).start();
+                   Log.d("MianBanJiActivity3", loc_readerHandle+"   "+ aa);
+           }
+       }catch (NoClassDefFoundError error){
+           Log.d("MianBanJiActivity3", error.getMessage()+"");
+       }
+   }
+
+    private String  byteToHexString(byte mByte)
+    {
+        String hexStr;
+
+        hexStr = Integer.toHexString(mByte & 0xff);
+        if(hexStr.length() == 1)
+            hexStr = '0'+ hexStr;
+
+        return hexStr;
     }
 
 }

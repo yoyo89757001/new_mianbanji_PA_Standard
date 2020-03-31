@@ -85,18 +85,16 @@ public class DengUT {
         }
         if (baoCunBean.getDangqianChengShi2()!=null){
             switch (baoCunBean.getDangqianChengShi2()){
-                case "天波":
+                case "智连":
                     jiqiType=0;
                     break;
-                case "涂鸦":
+                case "亮钻":
                     jiqiType=1;
                     break;
-                case "户外防水8寸屏":
+                case "涂鸦":
                     jiqiType=2;
                     break;
-                case "高通8寸屏":
-                    jiqiType=3;
-                    break;
+
             }
         }
 
@@ -105,41 +103,51 @@ public class DengUT {
 
 
     public  void closeWrite(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    HwitManager.HwitSetIOValue(5,0);
-                }catch (NoClassDefFoundError e){
-                    e.printStackTrace();
-                }
-                if (jiqiType==2) {
-                    FxTool.fxLED1Control(false);
-                    FxTool.fxLED2Control(false);
-                    FxTool.fxLED3Control(false);
-                }
-                writeGpio(CAMERA_WHITE_PATH,0);
-                //    writeFile("0");
+        if (jiqiType==0){
+            try {
+                HwitManager.HwitSetIOValue(10,1);
+                HwitManager.HwitSetIOValue(11,1);
+                HwitManager.HwitSetIOValue(12,1);
+                HwitManager.HwitSetIOValue(5,0);
+            }catch (NoClassDefFoundError e){
+                e.printStackTrace();
             }
-        }).start();
+        }
+
+            if (jiqiType==1) {
+                FxTool.fxLED1Control(false);
+                FxTool.fxLED2Control(false);
+                FxTool.fxLED3Control(false);
+            }
+            if (jiqiType==2){
+                writeGpio(CAMERA_WHITE_PATH,0);
+            }
+
 
     }
     public  void openWrite(){
-        writeGpio(RED_LAMP_PATH,0); //关红灯
-        writeGpio(GREEN_LAMP_PATH,0);//关绿灯
-        writeGpio(GPIO7_PATH,1);
-        writeGpio(CAMERA_WHITE_PATH,255);
-        try {
-            HwitManager.HwitSetIOValue(5,1);
-        }catch (NoClassDefFoundError e){
-            e.printStackTrace();
+        if (jiqiType==2){
+            writeGpio(RED_LAMP_PATH,0); //关红灯
+            writeGpio(GREEN_LAMP_PATH,0);//关绿灯
+            writeGpio(GPIO7_PATH,1);
+            writeGpio(CAMERA_WHITE_PATH,255);
         }
-        if (jiqiType==2) {
+        if (jiqiType==1) {
             FxTool.fxLED2Control(false);
             FxTool.fxLED3Control(false);
             FxTool.fxLED1Control(true);
         }
-        // writeFile("1");
+        if (jiqiType==0){//万智连
+            try {
+                HwitManager.HwitSetIOValue(10,0);
+                HwitManager.HwitSetIOValue(11,0);
+                HwitManager.HwitSetIOValue(12,0);
+                HwitManager.HwitSetIOValue(5,1);
+            }catch (NoClassDefFoundError error){
+                error.printStackTrace();
+            }
+        }
+
     }
 
 
@@ -147,120 +155,168 @@ public class DengUT {
 
 
     public  void closeRed(){
-        writeGpio(RED_LAMP_PATH,0);
-        if (jiqiType==2)
-            FxTool.fxLED2Control(false);
+        if (jiqiType==2){
+            writeGpio(RED_LAMP_PATH,0);
+        }
+      if (jiqiType==1){
+          FxTool.fxLED2Control(false);
+      }
+        if (jiqiType==0){
+            try {
+                HwitManager.HwitSetIOValue(10,1);
+                HwitManager.HwitSetIOValue(11,1);
+                HwitManager.HwitSetIOValue(12,1);
+            }catch (NoClassDefFoundError e){
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public  void openRed(){
-        writeGpio(GREEN_LAMP_PATH,0);//关绿灯
-        writeGpio(GPIO7_PATH,0); // 关白灯
-        writeGpio(RED_LAMP_PATH,1);
-        writeGpio(CAMERA_WHITE_PATH,255);
-        if (jiqiType==2) {
+        if (jiqiType==2){
+            writeGpio(GREEN_LAMP_PATH,0);//关绿灯
+            writeGpio(GPIO7_PATH,0); // 关白灯
+            writeGpio(RED_LAMP_PATH,1);
+            writeGpio(CAMERA_WHITE_PATH,255);
+        }
+        if (jiqiType==1) {
             FxTool.fxLED1Control(false);
             FxTool.fxLED3Control(false);
             FxTool.fxLED2Control(true);
+        }
+        if (jiqiType==0){//万智连
+            try {
+                HwitManager.HwitSetIOValue(10,0);
+                HwitManager.HwitSetIOValue(11,1);
+                HwitManager.HwitSetIOValue(12,1);
+            }catch (NoClassDefFoundError error){
+                error.printStackTrace();
+            }
         }
         Log.d("DengUT", "红灯");
     }
 
     public  void closeLOED(){//关屏幕
-        writeGpio(BRIGHTNESS_PATH,0);
-        try {
-            Lztek lztek=Lztek.create(MyApplication.myApplication);
-            lztek.setLcdBackLight(false);
-        }catch (NoClassDefFoundError e){
-            e.printStackTrace();
+        if (jiqiType==2) {//涂鸦
+            writeGpio(BRIGHTNESS_PATH, 0);
         }
-        try {
-            HwitManager.HwitCloseBacklight();
-        }catch (NoClassDefFoundError e){
-            e.printStackTrace();
+        if (jiqiType==1){
+            try {
+                Lztek lztek=Lztek.create(MyApplication.myApplication);
+                lztek.setLcdBackLight(false);
+            }catch (NoClassDefFoundError e){
+                e.printStackTrace();
+            }
+        }
+        if (jiqiType==0){
+            try {
+                HwitManager.HwitCloseBacklight();
+            }catch (NoClassDefFoundError e){
+                e.printStackTrace();
+            }
         }
         Log.d("DengUT", "关屏幕");
     }
 
     public  void openLOED(){//开屏幕
-        writeGpio(BRIGHTNESS_PATH,255);
-        try {
-            Lztek lztek=Lztek.create(MyApplication.myApplication);
-            lztek.setLcdBackLight(true);
-        }catch (NoClassDefFoundError e){
-            e.printStackTrace();
+
+        if (jiqiType==2){//涂鸦
+            writeGpio(BRIGHTNESS_PATH,255);
         }
-        try {
-            HwitManager.HwitOpenBacklight();
-        }catch (NoClassDefFoundError e){
-            e.printStackTrace();
+        if (jiqiType==1){
+            try {
+                Lztek lztek=Lztek.create(MyApplication.myApplication);
+                lztek.setLcdBackLight(true);
+            }catch (NoClassDefFoundError e){
+                e.printStackTrace();
+            }
         }
+       if (jiqiType==0){
+           try {
+               HwitManager.HwitOpenBacklight();
+           }catch (NoClassDefFoundError e){
+               e.printStackTrace();
+           }
+       }
+
         Log.d("DengUT", "开屏幕");
     }
 
 
     public  void closeGreen(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+            if (jiqiType==2){
                 writeGpio(GREEN_LAMP_PATH,0);
-                if (jiqiType==2)
-                    FxTool.fxLED3Control(false);
             }
-        }).start();
+            if (jiqiType==1){
+                FxTool.fxLED3Control(false);
+            }
+            if (jiqiType==0){
+                try {
+                    HwitManager.HwitSetIOValue(10,1);
+                    HwitManager.HwitSetIOValue(11,1);
+                    HwitManager.HwitSetIOValue(12,1);
+                }catch (NoClassDefFoundError error){
+                    error.printStackTrace();
+                }
+            }
 
     }
     public  void openGreen(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+            if (jiqiType==2){
                 writeGpio(GPIO7_PATH,0); // 关白灯
                 writeGpio(RED_LAMP_PATH,0); //关红灯
                 writeGpio(GREEN_LAMP_PATH,1);
                 writeGpio(CAMERA_WHITE_PATH,255);
-                if (jiqiType==2) {
-                    FxTool.fxLED1Control(false);
-                    FxTool.fxLED2Control(false);
-                    FxTool.fxLED3Control(true);
+            }
+            if (jiqiType==1) {
+                FxTool.fxLED1Control(false);
+                FxTool.fxLED2Control(false);
+                FxTool.fxLED3Control(true);
+            }
+            if (jiqiType==0){
+                try {
+                    HwitManager.HwitSetIOValue(10,1);
+                    HwitManager.HwitSetIOValue(11,0);
+                    HwitManager.HwitSetIOValue(12,1);
+                }catch (NoClassDefFoundError error){
+                    error.printStackTrace();
                 }
             }
-        }).start();
-
     }
 
     public  void closeDool(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+            if (jiqiType==2){
                 writeGpio(RELAY_CTL_PATH,0);
-                TPS980PosUtil.setRelayPower(0);
-                if (jiqiType==2)
-                    FxTool.fxDoorControl(false);
-                try {
-                    HwitManager.HwitSetIOValue(9,0);
-                }catch (NoClassDefFoundError e){
-                    e.printStackTrace();
-                }
             }
-        }).start();
+            if (jiqiType==1){
+                FxTool.fxDoorControl(false);
+            }
+           if (jiqiType==0){
+               try {
+                   HwitManager.HwitSetIOValue(9,0);
+               }catch (NoClassDefFoundError e){
+                   e.printStackTrace();
+               }
+           }
 
     }
 
 
     public  void openDool(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                writeGpio(RELAY_CTL_PATH,1);
-                TPS980PosUtil.setRelayPower(1);
-                if (jiqiType==2)
-                    FxTool.fxDoorControl(true);
-                try {
-                    HwitManager.HwitSetIOValue(9,1);
-                }catch (NoClassDefFoundError e){
-                    e.printStackTrace();
-                }
+        if (jiqiType==2){
+            writeGpio(RELAY_CTL_PATH,1);
+        }
+        if (jiqiType==1){
+            FxTool.fxDoorControl(true);
+        }
+        if (jiqiType==0){
+            try {
+                HwitManager.HwitSetIOValue(9,1);
+            }catch (NoClassDefFoundError e){
+                e.printStackTrace();
             }
-        }).start();
+        }
     }
 
 

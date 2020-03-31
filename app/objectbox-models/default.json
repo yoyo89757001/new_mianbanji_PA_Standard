@@ -500,49 +500,40 @@
     },
     {
       "id": "6:6913073702987965942",
-      "lastPropertyId": "8:4452945415811920963",
+      "lastPropertyId": "12:163042471695881348",
       "name": "DaKaBean",
       "properties": [
         {
           "id": "1:6386975497492276677",
           "name": "id",
           "type": 6,
-          "flags": 3
-        },
-        {
-          "id": "2:6647190577194976651",
-          "name": "id2",
-          "type": 9
-        },
-        {
-          "id": "3:2041377657144795246",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "4:6519699361397352350",
-          "name": "bumen",
-          "type": 9
-        },
-        {
-          "id": "5:3452065363083588352",
-          "name": "renyuanleixing",
-          "type": 9
+          "flags": 131
         },
         {
           "id": "6:6649783069099523657",
           "name": "time",
-          "type": 9
-        },
-        {
-          "id": "7:1804402839569805775",
-          "name": "time2",
           "type": 6,
           "flags": 4
         },
         {
-          "id": "8:4452945415811920963",
-          "name": "dianhua",
+          "id": "9:7580997366874708334",
+          "name": "personId",
+          "type": 9
+        },
+        {
+          "id": "10:4347995428565171831",
+          "name": "path",
+          "type": 9
+        },
+        {
+          "id": "11:1959068135872632972",
+          "name": "state",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "12:163042471695881348",
+          "name": "type",
           "type": 9
         }
       ],
@@ -1268,7 +1259,14 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    6647190577194976651,
+    2041377657144795246,
+    6519699361397352350,
+    3452065363083588352,
+    1804402839569805775,
+    4452945415811920963
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

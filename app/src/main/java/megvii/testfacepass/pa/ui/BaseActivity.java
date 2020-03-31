@@ -9,10 +9,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hwit.HwitManager;
 import com.pingan.ai.access.impl.OnPaAccessControlInitListener;
 import com.pingan.ai.access.manager.PaAccessControl;
 import com.pingan.ai.auth.manager.PaLicenseManager;
@@ -48,7 +51,7 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
     private ProgressDialog mProgressDialog;
     private BaoCunBean baoCunBean;
     private Box<BaoCunBean> baoCunBeanBox=MyApplication.myApplication.getBaoCunBeanBox();
-    private static boolean isL=true;
+   // private static boolean isL=true;
     private SharedPreferences mSharedPreferences;
 
     static {
@@ -69,6 +72,11 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         baoCunBean=baoCunBeanBox.get(123456L);
         mSharedPreferences = getSharedPreferences("SP", Context.MODE_PRIVATE);
         methodRequiresTwoPermission();
+        try {
+            HwitManager.HwitSetIOValue(8,1);//必须默认拉高GPIO口
+        }catch (NoClassDefFoundError error){
+            error.printStackTrace();
+        }
 
     }
 

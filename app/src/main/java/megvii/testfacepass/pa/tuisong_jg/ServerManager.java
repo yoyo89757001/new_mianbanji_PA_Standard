@@ -21,6 +21,10 @@ public class ServerManager {
         this.myServeInterface = myServeInterface;
     }
 
+    public Server getmServer(){
+        return mServer;
+    }
+
     /**
      * Create server.
      */
@@ -33,7 +37,7 @@ public class ServerManager {
             e.printStackTrace();
         }
 
-        mServer = AndServer.serverBuilder(MyApplication.myApplication)
+        mServer = AndServer.webServer(MyApplication.myApplication)
                 .inetAddress(inetAddress)
                 .port(port)
                 .timeout(12, TimeUnit.SECONDS)
@@ -73,7 +77,9 @@ public class ServerManager {
     public void stopServer() {
         if (mServer.isRunning()) {
             mServer.shutdown();
+            mServer=null;
         } else {
+            mServer=null;
             Log.w("AndServer", "The server has not started yet.");
         }
     }
