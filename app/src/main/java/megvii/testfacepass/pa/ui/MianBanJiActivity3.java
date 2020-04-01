@@ -48,18 +48,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.badoo.mobile.util.WeakHandler;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
-import com.common.pos.api.util.TPS980PosUtil;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+
 import com.hwit.HwitManager;
 import com.lztek.toolkit.Lztek;
 import com.pingan.ai.access.common.PaAccessControlMessage;
 import com.pingan.ai.access.common.PaAccessDetectConfig;
 import com.pingan.ai.access.common.PaAccessNativeConfig;
-import com.pingan.ai.access.entiry.PaAccessFaceInfo;
+
 import com.pingan.ai.access.entiry.YuvInfo;
 import com.pingan.ai.access.impl.OnPaAccessDetectListener;
 import com.pingan.ai.access.manager.PaAccessControl;
@@ -80,20 +75,17 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
+
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -132,10 +124,10 @@ import megvii.testfacepass.pa.utils.DateUtils;
 import megvii.testfacepass.pa.utils.DengUT;
 import megvii.testfacepass.pa.utils.FileUtil;
 import megvii.testfacepass.pa.utils.GetDeviceId;
-import megvii.testfacepass.pa.utils.GsonUtil;
+
 import megvii.testfacepass.pa.utils.NV21ToBitmap;
 import megvii.testfacepass.pa.utils.SettingVar;
-import megvii.testfacepass.pa.utils.fx.FxTool;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;

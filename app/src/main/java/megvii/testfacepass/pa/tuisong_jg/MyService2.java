@@ -55,19 +55,13 @@ import java.util.regex.Pattern;
 
 import io.objectbox.Box;
 import io.objectbox.query.LazyList;
-import jxl.Workbook;
-import jxl.WorkbookSettings;
-import jxl.format.Colour;
-import jxl.write.Label;
-import jxl.write.WritableCell;
+
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
+
 import megvii.testfacepass.pa.MyApplication;
 import megvii.testfacepass.pa.beans.BaoCunBean;
-import megvii.testfacepass.pa.beans.BitahFaceBean;
+
 import megvii.testfacepass.pa.beans.ConﬁgsBean;
 import megvii.testfacepass.pa.beans.DaKaBean;
 import megvii.testfacepass.pa.beans.DaKaBean_;
@@ -112,11 +106,11 @@ public class MyService2 {
 
     private Box<Subject> subjectBox  = MyApplication.myApplication.getSubjectBox();
     private Box<DaKaBean> daKaBeanBox  = MyApplication.myApplication.getDaKaBeanBox();
-    private Box<IDCardBean> idCardBeanBox  = MyApplication.myApplication.getIdCardBeanBox();
-    private Box<IDCardTakeBean> idCardTakeBeanBox  = MyApplication.myApplication.getIdCardTakeBeanBox();
+   // private Box<IDCardBean> idCardBeanBox  = MyApplication.myApplication.getIdCardBeanBox();
+   // private Box<IDCardTakeBean> idCardTakeBeanBox  = MyApplication.myApplication.getIdCardTakeBeanBox();
     private PaAccessControl paAccessControl=PaAccessControl.getInstance();
     private Box<BaoCunBean> baoCunBeanBox=MyApplication.myApplication.getBaoCunBeanBox();
-    private  String serialnumber= MyApplication.myApplication.getBaoCunBeanBox().get(123456).getJihuoma();
+   // private  String serialnumber= MyApplication.myApplication.getBaoCunBeanBox().get(123456).getJihuoma();
     private BaoCunBean baoCunBean=MyApplication.myApplication.getBaoCunBeanBox().get(123456);
     private  String pass= MyApplication.myApplication.getBaoCunBeanBox().get(123456).getJiaoyanmima();
 
