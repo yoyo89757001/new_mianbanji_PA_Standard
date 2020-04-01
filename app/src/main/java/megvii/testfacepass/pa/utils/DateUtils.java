@@ -230,6 +230,14 @@ public class DateUtils {
         return sdr.format(new Date(lcc));
     }
 
+    public static String timeNYR(String time) {
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+//        int i = Integer.parseInt(time);
+        return sdr.format(new Date(lcc));
+    }
+
     // 调用此方法输入所要转换的时间戳例如（1402733340）输出（"2014年06月14日16时09分00秒"）
     public static String times(long timeStamp) {
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日 - HH:mm", Locale.CHINA);

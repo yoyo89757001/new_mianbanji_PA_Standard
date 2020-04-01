@@ -63,4 +63,16 @@ public class DaKaBean {
     public void setTime(long time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "DaKaBean{" +
+                "id=" + id +
+                ", personId='" + personId + '\'' +
+                ", path='" + path + '\'' +
+                ", state=" + state +
+                ", type='" + type + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }

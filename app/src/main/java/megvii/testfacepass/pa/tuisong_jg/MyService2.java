@@ -465,8 +465,8 @@ public class MyService2 {
 
     //获取图片
     @GetMapping(path = "/getFaceBitmap2")
-    public void getFaceBitmap2(HttpResponse response,@QueryParam(name = "id",required = true) String id){
-        File file=new File(MyApplication.SDPATH2+File.separator+id+".png");
+    public void getFaceBitmap2(HttpResponse response,@QueryParam(name = "time",required = true) String time,@QueryParam(name = "id",required = true) String id){
+        File file=new File(MyApplication.SDPATH2+File.separator+time+File.separator+id+".png");
         if (file.exists()){
             FileBody body = new FileBody(file);
             response.addHeader("Content-Disposition", "attachment;filename="+id+".png");
@@ -498,7 +498,7 @@ public class MyService2 {
                     Subject subject=new Subject();
                     subject.setTeZhengMa(personsBean.getId());
                     subject.setName(personsBean.getName());
-                    subject.setIdcardNum(personsBean.getIdcardNum());
+                    subject.setIdcardNum(personsBean.getIdcardNum().toUpperCase());
                     subject.setEntryTime(personsBean.getExpireTime());
                     subjectBox.put(subject);
                     return requsBean(1,true,personsBean.getId(),"创建成功");
@@ -534,7 +534,7 @@ public class MyService2 {
                     }
                     subject.setTeZhengMa(personsBean.getId());
                     subject.setName(personsBean.getName());
-                    subject.setIdcardNum(personsBean.getIdcardNum());
+                    subject.setIdcardNum(personsBean.getIdcardNum().toUpperCase());
                     subject.setEntryTime(personsBean.getExpireTime());
                     subjectBox.put(subject);
                     return requsBean(1,true,personsBean.getId(),"更新成功");
@@ -1011,7 +1011,8 @@ String findRecords(@RequestParam(name = "pass") String pass,
                   @RequestParam(name = "length") String length,
                    @RequestParam(name = "index") String index,
                    @RequestParam(name = "startTime") String startTime,
-                   @RequestParam(name = "endTime") String endTime){
+                   @RequestParam(name = "endTime") String endTime,
+                   @RequestParam(name = "type") String type){
     if (pass!=null && pass.equals(this.pass)){
             try {
                 int ind=Integer.parseInt(index);
@@ -1020,7 +1021,12 @@ String findRecords(@RequestParam(name = "pass") String pass,
                 long min=0,max=0;
                 min=Long.parseLong(startTime);
                 max=Long.parseLong(endTime);
-                List<DaKaBean> subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).between(DaKaBean_.time,min,max).build().find(ind,len);
+                List<DaKaBean> subjectList=null;
+                if (type.equals("all")){
+                    subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).between(DaKaBean_.time,min,max).build().find(ind,len);
+                }else {
+                    subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).equal(DaKaBean_.type,type).between(DaKaBean_.time,min,max).build().find(ind,len);
+                }
                 for (DaKaBean subject:subjectList){
 //                        PersonsBean personsBean=new PersonsBean();
 //                        personsBean.setId(subject.getTeZhengMa());
@@ -1053,6 +1059,15 @@ String findRecords(@RequestParam(name = "pass") String pass,
         return requsBean(401,true,"","签名校验失败");
     }
 }
+
+//26.照片更新（base64）
+//    v1.2.1.8+版本以上支持
+//    请求地址：  http://设备IP:8090/face/update
+//    请求方法： POST
+
+
+
+
 
 
     private String requsBean(int result,boolean success,Object data){

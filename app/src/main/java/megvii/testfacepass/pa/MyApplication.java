@@ -198,7 +198,7 @@ public class MyApplication extends Application implements Application.ActivityLi
             baoCunBean.setTishiyu("欢迎光临");
             baoCunBean.setPort(8090);
             baoCunBean.setMsrPanDing(true);
-            baoCunBean.setConfigModel(1);
+            baoCunBean.setConfigModel(2);
 
             mBoxStore.boxFor(BaoCunBean.class).put(baoCunBean);
         }
