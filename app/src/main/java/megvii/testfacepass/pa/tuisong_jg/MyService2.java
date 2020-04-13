@@ -1016,10 +1016,18 @@ String findRecords(@RequestParam(name = "pass") String pass,
                 min=Long.parseLong(startTime);
                 max=Long.parseLong(endTime);
                 List<DaKaBean> subjectList=null;
-                if (type.equals("all")){
-                    subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).between(DaKaBean_.time,min,max).build().find(ind,len);
+                if (personId.equals("-1")){
+                    if (type.equals("all")){
+                        subjectList= daKaBeanBox.query().between(DaKaBean_.time,min,max).build().find(ind,len);
+                    }else {
+                        subjectList= daKaBeanBox.query().equal(DaKaBean_.type,type).between(DaKaBean_.time,min,max).build().find(ind,len);
+                    }
                 }else {
-                    subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).equal(DaKaBean_.type,type).between(DaKaBean_.time,min,max).build().find(ind,len);
+                    if (type.equals("all")){
+                        subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).between(DaKaBean_.time,min,max).build().find(ind,len);
+                    }else {
+                        subjectList= daKaBeanBox.query().equal(DaKaBean_.personId,personId).equal(DaKaBean_.type,type).between(DaKaBean_.time,min,max).build().find(ind,len);
+                    }
                 }
                 for (DaKaBean subject:subjectList){
 //                        PersonsBean personsBean=new PersonsBean();

@@ -171,4 +171,37 @@
         android:layout_height="wrap_content"/>
 
 
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/faceLinearLayout"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/zidonghuoqu_bai"
+        android:layout_centerInParent="true"
+        android:layout_width="300dp"
+        android:layout_height="360dp">
+
+        <ImageView
+            android:id="@+id/faceImage"
+            android:scaleType="fitXY"
+            android:layout_width="160dp"
+            android:layout_height="220dp"/>
+
+        <TextView
+            android:background="#2A7CF5"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:id="@+id/faceName"
+            android:padding="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+
 </RelativeLayout>

@@ -203,7 +203,6 @@ public class MyApplication extends Application implements Application.ActivityLi
             mBoxStore.boxFor(BaoCunBean.class).put(baoCunBean);
         }
 
-
         FileDownloader.setupOnApplicationOnCreate(this)
                 .connectionCreator(new FileDownloadUrlConnection
                         .Creator(new FileDownloadUrlConnection.Configuration()
