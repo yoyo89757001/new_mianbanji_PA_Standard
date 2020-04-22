@@ -264,7 +264,6 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         huiFuBeanBox = MyApplication.myApplication.getHuiFuBeanBox();
         baoCunBeanDao = MyApplication.myApplication.getBaoCunBeanBox();
@@ -308,7 +307,6 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
             serverManager.setMyServeInterface(MianBanJiActivity3.this);
             serverManager.startServer();
         }
-
         //每分钟的广播
         // private TodayBean todayBean = null;
         IntentFilter intentFilter = new IntentFilter();
@@ -344,8 +342,6 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         musicId.put(6, soundPool.load(this, R.raw.shualianyanz, 1));//请刷脸
 
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
-
 
         try {//配置微波雷达
             lztek=Lztek.create(MyApplication.myApplication);
@@ -2173,14 +2169,14 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
     private void initFaceConfig() {
         //Robin 使用比对的设置
         PaAccessDetectConfig faceDetectConfig = PaAccessControl.getInstance().getPaAccessDetectConfig();
-        faceDetectConfig.setFaceConfidenceThreshold(0.85f); //检测是不是人的脸。默认使用阀值 0.85f，阈值视具体 情况而定，最大为 1。
+        faceDetectConfig.setFaceConfidenceThreshold(0.80f); //检测是不是人的脸。默认使用阀值 0.85f，阈值视具体 情况而定，最大为 1。
         faceDetectConfig.setYawThreshold(40);//人脸识别角度
         faceDetectConfig.setRollThreshold(40);
         faceDetectConfig.setPitchThreshold(40);
         // 注册图片模糊度可以设置0.9f（最大值1.0）这样能让底图更清晰。比对的模糊度可以调低一点，这样能加快识别速度，识别模糊度建议设置0.1f
         faceDetectConfig.setBlurnessThreshold(0.5f);
-        faceDetectConfig.setMinBrightnessThreshold(30); // 人脸图像最小亮度阀值，默认为 30，数值越小越 暗，太暗会影响人脸检测和活体识别，可以根据 需求调整。
-        faceDetectConfig.setMaxBrightnessThreshold(240);// 人脸图像最大亮度阀值，默认为 240，数值越大 越亮，太亮会影响人脸检测和活体识别，可以根 据需求调整。
+        faceDetectConfig.setMinBrightnessThreshold(20); // 人脸图像最小亮度阀值，默认为 30，数值越小越 暗，太暗会影响人脸检测和活体识别，可以根据 需求调整。
+        faceDetectConfig.setMaxBrightnessThreshold(300);// 人脸图像最大亮度阀值，默认为 240，数值越大 越亮，太亮会影响人脸检测和活体识别，可以根 据需求调整。
         faceDetectConfig.setAttributeEnabled(false);//人脸属性开关，默认关闭。会检测出人脸的性别 和年龄。人脸属性的检测会消耗运算资源，可视 情况开启，未开启性别和年龄都返回-1
         faceDetectConfig.setLivenessEnabled(baoCunBean.isHuoTi());//活体开关
         // faceDetectConfig.setTrackingMode(true); //Robin 跟踪模式跟踪模式，开启后会提高检脸检出率，减小检脸耗时。门禁场景推荐开启。图片检测会强制关闭
@@ -2191,7 +2187,7 @@ public class MianBanJiActivity3 extends Activity implements CameraManager.Camera
         nativeConfig.faceNumber = 1;
         paAccessControl.setPaAccessNativeConfig(nativeConfig);
         paAccessControl.setPaAccessDetectConfig(faceDetectConfig);
-        PaAccessControl.getInstance().setPaAccessDetectConfig(faceDetectConfig);
+       // PaAccessControl.getInstance().setPaAccessDetectConfig(faceDetectConfig);
     }
 
 
