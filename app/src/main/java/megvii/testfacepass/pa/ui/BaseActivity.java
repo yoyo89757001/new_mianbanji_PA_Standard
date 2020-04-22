@@ -9,34 +9,28 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.InputDevice;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.hwit.HwitManager;
 import com.pingan.ai.access.impl.OnPaAccessControlInitListener;
 import com.pingan.ai.access.manager.PaAccessControl;
 import com.pingan.ai.auth.manager.PaLicenseManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import io.objectbox.Box;
 import megvii.testfacepass.pa.MyApplication;
 import megvii.testfacepass.pa.R;
 import megvii.testfacepass.pa.beans.BaoCunBean;
-
 import megvii.testfacepass.pa.utils.AcquireTokenAPI;
 import megvii.testfacepass.pa.utils.GetDeviceId;
 import megvii.testfacepass.pa.utils.ToastUtils;
-
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -77,7 +71,32 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         }catch (NoClassDefFoundError error){
             error.printStackTrace();
         }
+        MyApplication.myApplication.addActivity(this);
 
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getDeviceId() == KeyCharacterMap.VIRTUAL_KEYBOARD) {//如果是虚拟键盘则不截获输入事件
+            return false;
+        }
+        InputDevice inputDevice = InputDevice.getDevice(event.getDeviceId());
+        Log.e("key", "onKeyDown: InputDevice:name=" +  inputDevice.getName()+",productId="+inputDevice.getProductId()+",VendorId="+ inputDevice.getVendorId());
+        Log.e("key", "onKeyDown: keyCode=" + keyCode + "String=" + KeyEvent.keyCodeToString(keyCode));
+            if (keyCode!=2007)
+        ToastUtils.show(this,keyCode + "String=" + KeyEvent.keyCodeToString(keyCode));
+      //  ToastUtils.show(this, inputDevice.getName()+",productId="+inputDevice.getProductId()+",VendorId="+ inputDevice.getVendorId());
+
+        //监听键盘以及二维码输入
+        return true;//截获事件
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.myApplication.removeActivity(this);
     }
 
     private final int RC_CAMERA_AND_LOCATION=10000;

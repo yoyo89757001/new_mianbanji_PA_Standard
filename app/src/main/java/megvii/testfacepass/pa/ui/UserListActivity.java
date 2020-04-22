@@ -120,24 +120,28 @@ public class UserListActivity extends Activity implements UserListAdapter.ItemDe
 
                 if (subjectLazyList!=null && subjectLazyList.size()>0){
                     try {
-                        facePassHandler.deleteFaceById(subjectLazyList.get(position).getTeZhengMa());
+                        String p1=subjectLazyList.get(position).getFaceIds1();
+                        String p2=subjectLazyList.get(position).getFaceIds2();
+                        String p3=subjectLazyList.get(position).getFaceIds3();
+                        facePassHandler.deleteFaceById(p1);
+                        facePassHandler.deleteFaceById(p2);
+                        facePassHandler.deleteFaceById(p3);
                         subjectBox.remove(subjectLazyList.get(position));
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.d("UserListActivity", e.getMessage()+"");
                     }
                     subjectLazyList= subjectBox.query().build().findLazy();
-                   // Log.d("UserListActivity", subjectLazyList.get(0).getName());
-                    Log.d("UserListActivity", "subjectLazyList.size():" + subjectLazyList.size());
-                    if (subjectLazyList.size()<=0 || null==subjectLazyList.get(0)){
-                        Log.d("UserListActivity", "subjectLazyList.size()<=0");
-                        zongrenshu.setText("总人数:0");
-                    }else {
-                        Log.d("UserListActivity", "subjectLazyList.size()>0");
-                        adapter=new UserListAdapter(subjectLazyList,UserListActivity.this);
+                    if (subjectBox.count()>0) {
+                        adapter = new UserListAdapter(subjectLazyList, UserListActivity.this);
                         adapter.setOnItemDeleteButtonClickListener(UserListActivity.this);
                         listView.setAdapter(adapter);
                         zongrenshu.setText("总人数:"+subjectLazyList.size());
+                    }else {
+                        adapter = new UserListAdapter(new ArrayList<Subject>(), UserListActivity.this);
+                        adapter.setOnItemDeleteButtonClickListener(UserListActivity.this);
+                        listView.setAdapter(adapter);
+                        zongrenshu.setText("总人数:0");
                     }
 
                 }

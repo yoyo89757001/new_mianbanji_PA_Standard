@@ -16,6 +16,7 @@ import com.tencent.bugly.Bugly;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Objects;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
@@ -36,8 +37,7 @@ import megvii.testfacepass.pa.beans.Subject;
 import megvii.testfacepass.pa.dialogall.CommonData;
 import megvii.testfacepass.pa.dialogall.CommonDialogService;
 import megvii.testfacepass.pa.dialogall.ToastUtils;
-
-
+import megvii.testfacepass.pa.utils.UnCeHandler;
 
 
 /**
@@ -45,7 +45,8 @@ import megvii.testfacepass.pa.dialogall.ToastUtils;
  */
 
 public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks {
-
+    ArrayList<Activity> list = new ArrayList<Activity>();
+    public static Context context;
     public static MyApplication myApplication;
     //private Box<ChengShiIDBean> chengShiIDBeanBox=null;
     private Box<BaoCunBean> baoCunBeanBox=null;
@@ -98,15 +99,46 @@ public class MyApplication extends Application implements Application.ActivityLi
         }
     }
 
+    public void init(){
+        //设置该CrashHandler为程序的默认处理器
+        UnCeHandler catchExcep = new UnCeHandler(this);
+        Thread.setDefaultUncaughtExceptionHandler(catchExcep);
+    }
+
+    /**
+     * Activity关闭时，删除Activity列表中的Activity对象*/
+    public void removeActivity(Activity a){
+        list.remove(a);
+    }
+
+    /**
+     * 向Activity列表中添加Activity对象*/
+    public void addActivity(Activity a){
+        list.add(a);
+    }
+
+    /**
+     * 关闭Activity列表中的所有Activity*/
+    public void finishActivity(){
+        for (Activity activity : list) {
+            if (null != activity) {
+                activity.finish();
+            }
+        }
+        //杀死该应用进程
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         myApplication = this;
+        context = this.getApplicationContext();
+        init();
         BoxStore mBoxStore = MyObjectBox.builder().androidContext(this).build();
-
         Bugly.init(getApplicationContext(), "7e652d7e11", false);
-
       //  Log.d("MyApplication","机器码"+ FileUtil.getSerialNumber(this) == null ? FileUtil.getIMSI() : FileUtil.getSerialNumber(this));
         //全局dialog
         this.registerActivityLifecycleCallbacks(this);//注册
@@ -180,7 +212,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         if (baoCunBean == null) {
             baoCunBean = new BaoCunBean();
             baoCunBean.setHoutaiDiZhi("http://hy.inteyeligence.com/front");
-            baoCunBean.setTouxiangzhuji("http://www.inteyeligence.com:8980/front");
+            baoCunBean.setTouxiangzhuji("http://open.inteyeligence.com/front");
             baoCunBean.setId(123456L);
             baoCunBean.setShibieFaceSize(50);
             baoCunBean.setShibieFaZhi(0.52f);

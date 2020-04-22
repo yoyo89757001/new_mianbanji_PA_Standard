@@ -1,7 +1,7 @@
 package megvii.testfacepass.pa.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +32,7 @@ import megvii.testfacepass.pa.view.GlideRoundTransform;
 
 public class UserListAdapter extends BaseAdapter {
 
-    private LazyList<Subject> mGroupNames;
+    private List<Subject> mGroupNames;
     private LayoutInflater mLayoutInflater;
     private ItemDeleteButtonClickListener mItemDeleteButtonClickListener;
 
@@ -40,7 +40,7 @@ public class UserListAdapter extends BaseAdapter {
     private RequestOptions myOptions2 =null;
 
 
-    public UserListAdapter(LazyList<Subject> data, Context context) {
+    public UserListAdapter(List<Subject> data, Context context) {
         mGroupNames=data;
         this.context=context;
         myOptions2 = new RequestOptions()
@@ -100,7 +100,12 @@ public class UserListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.groupNameTv =  convertView.findViewById(R.id.tv_group_name);
             holder.deleteGroupIv =  convertView.findViewById(R.id.iv_delete_group);
-            holder.touxiang =  convertView.findViewById(R.id.touxiang);
+            holder.touxiang1 =  convertView.findViewById(R.id.touxiang1);
+            holder.touxiang2 =  convertView.findViewById(R.id.touxiang2);
+            holder.touxiang3 =  convertView.findViewById(R.id.touxiang3);
+            holder.id1 =  convertView.findViewById(R.id.id1);
+            holder.id2 =  convertView.findViewById(R.id.id2);
+            holder.id3 =  convertView.findViewById(R.id.id3);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -114,13 +119,58 @@ public class UserListAdapter extends BaseAdapter {
             }
         });
 
-        holder.groupNameTv.setText(mGroupNames.get(position).getName());
+        holder.groupNameTv.setText(mGroupNames.get(position).getName()+" ID:"+mGroupNames.get(position).getTeZhengMa());
+        if (mGroupNames.get(position).getFaceIds1()!=null){
+            holder.id1.setVisibility(View.VISIBLE);
+            holder.id1.setText("图片1的ID:"+mGroupNames.get(position).getFaceIds1());
+        }else {
+            holder.id1.setVisibility(View.GONE);
+        }
+        if (mGroupNames.get(position).getFaceIds2()!=null){
+            holder.id2.setVisibility(View.VISIBLE);
+            holder.id2.setText("图片2的ID:"+mGroupNames.get(position).getFaceIds2());
+        }else {
+            holder.id2.setVisibility(View.GONE);
+        }
+
+        if (mGroupNames.get(position).getFaceIds3()!=null){
+            holder.id3.setVisibility(View.VISIBLE);
+            holder.id3.setText("图片3的ID:"+mGroupNames.get(position).getFaceIds3());
+        }else {
+            holder.id3.setVisibility(View.GONE);
+        }
+
         try {
-            if (mGroupNames.get(position).getTeZhengMa()!=null){
+            String p1=mGroupNames.get(position).getFaceIds1();
+            String p2=mGroupNames.get(position).getFaceIds2();
+            String p3=mGroupNames.get(position).getFaceIds3();
+
+            if (p1!=null){
+                holder.touxiang1.setVisibility(View.VISIBLE);
                 Glide.with(context)
-                        .load(MyApplication.SDPATH3+ File.separator+mGroupNames.get(position).getTeZhengMa()+".png")
+                        .load(MyApplication.SDPATH3+ File.separator+p1+".png")
                         .apply(myOptions2)
-                        .into(holder.touxiang);
+                        .into(holder.touxiang1);
+            }else {
+                holder.touxiang1.setVisibility(View.GONE);
+            }
+            if (p2!=null){
+                holder.touxiang2.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(MyApplication.SDPATH3+ File.separator+p2+".png")
+                        .apply(myOptions2)
+                        .into(holder.touxiang2);
+            }else{
+                holder.touxiang2.setVisibility(View.GONE);
+            }
+            if (p3!=null){
+                holder.touxiang3.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(MyApplication.SDPATH3+ File.separator+p3+".png")
+                        .apply(myOptions2)
+                        .into(holder.touxiang3);
+            }else {
+                holder.touxiang3.setVisibility(View.GONE);
             }
 
         } catch (Exception e) {
@@ -131,8 +181,8 @@ public class UserListAdapter extends BaseAdapter {
 
 
     public static class ViewHolder {
-        TextView groupNameTv;
-        ImageView deleteGroupIv,touxiang;
+        TextView groupNameTv,id1,id2,id3;
+        ImageView deleteGroupIv,touxiang1,touxiang2,touxiang3;
     }
 
 

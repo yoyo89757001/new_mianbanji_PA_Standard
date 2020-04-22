@@ -738,16 +738,59 @@ String find(@RequestParam(name = "pass") String pass,
                             String subject1= subject.getFaceIds1();
                             String subject2= subject.getFaceIds2();
                             String subject3= subject.getFaceIds3();
-
-                            if (subject1==null){
-                                subject.setFaceIds1(faceId);
-                            }else if (subject2==null){
-                                subject.setFaceIds2(faceId);
-                            }else if (subject3==null){
-                                subject.setFaceIds3(faceId);
-                            }else {//都不为空
-                                return requsBean(-1, true, "", "注册失败,该人员超过三张注册照片,请先删除其中一张");
+                            List<String> strings=new ArrayList<>();
+                            strings.add(subject1);
+                            strings.add(subject2);
+                            strings.add(subject3);
+                            boolean isB = false;//默认不相等
+                            boolean isA = true;//默认都有值
+                            for (String s:strings){
+                                if (s!=null){
+                                   if (s.equals(faceId)){
+                                       isB=true;
+                                   }
+                                }else {
+                                    isA=false;
+                                }
                             }
+                            if (!isB){//有一个相等不用管 继续执行下面的
+                                if (!isA){//表示里面有空的位置
+                                    for (int i=0;i<strings.size();i++){
+                                        if (strings.get(i)==null){
+                                           switch (i){
+                                               case 0:
+                                                   subject.setFaceIds1(faceId);
+                                                   break;
+                                               case 1:
+                                                   subject.setFaceIds2(faceId);
+                                                   break;
+                                               case 2:
+                                                   subject.setFaceIds3(faceId);
+                                                   break;
+                                           }
+                                           break;
+                                        }
+                                    }
+                                }else {
+                                    return requsBean(-1, true, "", "注册失败,该人员超过三张注册照片,请先删除其中一张");
+                                }
+                            }
+
+//                            if (subject1==null){
+//                                subject.setFaceIds1(faceId);
+//                            }else if (subject2==null){//subject1不为空
+//                                if (!subject1.equals(faceId)){
+//                                    subject.setFaceIds2(faceId);
+//                                }
+//                            }else if (subject3==null){
+//                                if (!subject2.equals(faceId)){
+//                                    subject.setFaceIds3(faceId);
+//                                }
+//                            }else {//都不为空
+//                                if (!subject3.equals(faceId)){
+//                                    return requsBean(-1, true, "", "注册失败,该人员超过三张注册照片,请先删除其中一张");
+//                                }
+//                            }
                             PaAccessFaceInfo face = paAccessControl.queryFaceById(faceId);
                             if (face != null) {
                                 paAccessControl.deleteFaceById(face.faceId);
@@ -902,16 +945,44 @@ String createByUrl(@RequestParam(name = "pass") String pass,
                         String subject1= subject.getFaceIds1();
                         String subject2= subject.getFaceIds2();
                         String subject3= subject.getFaceIds3();
-
-                        if (subject1==null){
-                            subject.setFaceIds1(faceId);
-                        }else if (subject2==null){
-                            subject.setFaceIds2(faceId);
-                        }else if (subject3==null){
-                            subject.setFaceIds3(faceId);
-                        }else {//都不为空
-                            return requsBean(-1, true, "", "注册失败,该人员超过三张注册照片,请先删除其中一张");
+                        List<String> strings=new ArrayList<>();
+                        strings.add(subject1);
+                        strings.add(subject2);
+                        strings.add(subject3);
+                        boolean isB = false;//默认不相等
+                        boolean isA = true;//默认都有值
+                        for (String s:strings){
+                            if (s!=null){
+                                if (s.equals(faceId)){
+                                    isB=true;
+                                }
+                            }else {
+                                isA=false;
+                            }
                         }
+                        if (!isB){//有一个相等不用管 继续执行下面的
+                            if (!isA){//表示里面有空的位置
+                                for (int i=0;i<strings.size();i++){
+                                    if (strings.get(i)==null){
+                                        switch (i){
+                                            case 0:
+                                                subject.setFaceIds1(faceId);
+                                                break;
+                                            case 1:
+                                                subject.setFaceIds2(faceId);
+                                                break;
+                                            case 2:
+                                                subject.setFaceIds3(faceId);
+                                                break;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }else {
+                                return requsBean(-1, true, "", "注册失败,该人员超过三张注册照片,请先删除其中一张");
+                            }
+                        }
+
                         PaAccessFaceInfo face = paAccessControl.queryFaceById(faceId);
                         if (face != null) {
                             paAccessControl.deleteFaceById(face.faceId);
